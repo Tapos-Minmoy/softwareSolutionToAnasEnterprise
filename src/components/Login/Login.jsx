@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Login = () => {
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-orange-50 to-orange-200">
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-orange-50 to-orange-100">
       <div className="w-full max-w-md p-6 bg-black rounded-lg shadow-md">
         <h1 className="text-3xl font-bold text-white mb-4">Log In</h1>
         <form className="space-y-4">
@@ -28,14 +28,19 @@ const Login = () => {
               required
             />
           </div>
-          <button
-            type="submit"
-            className="w-full py-2 px-4 text-white bg-orange-400 hover:bg-orange-500 rounded focus:ring focus:ring-orange-300"
-          >
-            Log In
-          </button>
+          <div className="flex justify-between">
+            <button type="submit"
+              className="w-full py-2 px-4 text-white bg-orange-400 hover:bg-orange-500 rounded focus:ring focus:ring-orange-300"
+            >
+              Log In
+            </button>
+           </div>
+
+          <Link to="/forgotPassword" className="text-sm mt-2 text-white hover:underline">
+              Forgot Password?
+            </Link>
           <p className="text-sm text-white">
-            Don't have an account? <Link to='/signUp' className="font-medium hover:underline">Sign up</Link>
+            Don't have an account? <Link to="/signUp" className="font-medium hover:underline">Sign up</Link>
           </p>
         </form>
       </div>
