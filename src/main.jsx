@@ -9,6 +9,7 @@ import Main from './components/Main/Main';
 import SignUp from './components/SignUp/SignUp';
 import Login from './components/Login/Login';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import Home from './components/Home/Home';
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
     {
       path:'/forgotPassword',
       element:<ForgotPassword></ForgotPassword>,
+    },
+    {
+      path:'/Home',
+      element:<Home></Home>
     }
    ]
 },
