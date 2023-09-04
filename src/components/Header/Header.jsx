@@ -1,43 +1,77 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from "react-router";
+import { useUserAuth } from "../../context/UserAuthContext";
 
 const Header = () => {
-  const [expanded, setExpanded] = useState(false);
-
-  const toggleMenu = () => {
-    setExpanded(!expanded);
+  const { logOut, user } = useUserAuth();
+ // const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      navigate("/login");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
-
   return (
     <div className="navbar bg-base-100 border border-black">
       <div className="flex-1">
-        <div className="dropdown">
-          {/* Button for Mobile View */}
-          <button tabIndex={0} className="btn btn-ghost btn-circle md:hidden" onClick={toggleMenu}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
-            </svg>
-          </button>
-          {/* List Div (only shown on laptop view) */}
-          <ul className={`text-white bg-black menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${expanded ? 'block' : 'hidden'} md:block`}>
-            <li><a className="hover:text-orange-500">Dashboard</a></li>
-            <li><a className="hover:text-orange-500">Contact</a></li>
-            <li></li>
-            <li><a className="hover:text-orange-500">Items</a></li>
-            <li></li>
-            <li><a className="hover:text-orange-500">Stock In</a></li>
-            <li><a className="hover:text-orange-500">Stock Out</a></li>
-            <li><a className="hover:text-orange-500">Invoice</a></li>
-            <li></li>
-            <li><a className="hover:text-orange-500">Payable</a></li>
-            <li><a className="hover:text-orange-500">Receivable</a></li>
-            <li><a className="hover:text-orange-500">Reports</a></li>
-          </ul>
+      {user && (
+        <div className="conditional-menu">
+          <div className="dropdown">
+            <label tabIndex={0} className="btn btn-ghost btn-circle">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
+              </svg>
+            </label>
+            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              <li><a>Dashboard</a></li>
+              <li><a>Contact</a></li>
+              <li></li>
+              <li><a>Items</a></li>
+              <li></li>
+              <li><a>Stock In</a></li>
+              <li><a>Stock Out</a></li>
+              <li><a>Invoice</a></li>
+              <li></li>
+              <li><a>Payable</a></li>
+              <li><a>Receivable</a></li>
+              <li><a>Reports</a></li>
+            </ul>
+          </div>
         </div>
+      )}
         <img className='w-12' src="src\components\images\Electronic Vehicle Logo.png" alt="" />
       </div>
 
-  </div>
+      {/* Your other header content */}
+      {user && (
+        <div className="flex-none">
+          <div className="form-control">
+            <input type="text" placeholder="Search" className="input input-bordered w-60 md:w-auto" />
+          </div>
+        </div>
+      )}
+
+      {user && (
+        <div className="dropdown dropdown-end">
+          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+            <div className="w-8 rounded-full">
+              <img src="src\components\images\human.png" alt="" />
+            </div>
+          </label>
+          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <li>
+              <a className="justify-between">
+                Profile
+              </a>
+            </li>
+            <li><a>Settings</a></li>
+            <li><a onClick={handleLogout}>Logout</a></li>
+          </ul>
+        </div>
+      )}
+    </div>
   );
 };
 

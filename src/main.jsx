@@ -11,6 +11,9 @@ import Login from './components/Login/Login';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import Home from './components/Home/Home';
 
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import { UserAuthContextProvider } from "./context/UserAuthContext";
+import { useUserAuth } from "./context/UserAuthContext";
 
 const router = createBrowserRouter([
 {
@@ -30,8 +33,10 @@ const router = createBrowserRouter([
       element:<ForgotPassword></ForgotPassword>,
     },
     {
-      path:'/Home',
-      element:<Home></Home>
+      path: '/home',
+      element: <ProtectedRoute>
+             <Home />
+          </ProtectedRoute>,
     }
    ]
 },
@@ -40,6 +45,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <UserAuthContextProvider> {/* Wrap your entire app in UserAuthContextProvider */}
+      <RouterProvider router={router} />
+    </UserAuthContextProvider>
   </React.StrictMode>,
 )
