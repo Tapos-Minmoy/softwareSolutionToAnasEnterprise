@@ -11,8 +11,8 @@ const Home = () => {
             <li></li>
             <li><a className="hover:text-orange-500">Items</a></li>
             <li></li>
-            <li><a className="hover:text-orange-500">Stock In</a></li>
-            <li><a className="hover:text-orange-500">Stock Out</a></li>
+            <li><a className="hover:text-orange-500">Stock In/Purchase </a></li>
+            <li><a className="hover:text-orange-500">Stock Out/Sales </a></li>
             <li><a className="hover:text-orange-500">Invoice</a></li>
             <li></li>
             <li><a className="hover:text-orange-500">Payable</a></li>

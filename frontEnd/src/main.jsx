@@ -23,6 +23,12 @@ const router = createBrowserRouter([
    element:<Main></Main>,
    children:[
     {
+      path: '/',
+      element: <ProtectedRoute>
+             <Home />
+          </ProtectedRoute>,        
+    },
+    {
       path:'/signUp',
       element:<UnProtectedRoute>
                 <SignUp></SignUp>
