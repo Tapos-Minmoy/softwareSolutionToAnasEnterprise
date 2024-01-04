@@ -15,7 +15,8 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import UnProtectedRoute from "./components/UnProtectedRoute/UnProtectedRoute";
 
 import { UserAuthContextProvider } from "./context/UserAuthContext";
-import { useUserAuth } from "./context/UserAuthContext";
+import Vendors from './components/Vendors/Vendors';
+import NewPage from './components/NewPage/Newpage';
 
 const router = createBrowserRouter([
 {
@@ -44,12 +45,27 @@ const router = createBrowserRouter([
       path:'/forgotPassword',
       element:<ForgotPassword></ForgotPassword>,
     },
+ 
     {
       path: '/home',
       element: <ProtectedRoute>
              <Home />
           </ProtectedRoute>,
-    }
+    },
+    {
+      path: '/vendors',
+      element: <Vendors>
+        <Home />
+      </Vendors>,
+    },
+   
+    {
+      path: '/new',
+      element: <NewPage>
+      <Home></Home>
+      </NewPage>,
+    },
+   
    ]
 },
 
