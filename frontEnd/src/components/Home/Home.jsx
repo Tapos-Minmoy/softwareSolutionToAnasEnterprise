@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
+import Vendors from '../Vendors/Vendors';
+import Expenses from '../Expenses/Expenses';
+import PurchaseOrder from '../PurchaseOrder/PurchaseOrder';
+import PurchaseReceives from '../PurchaseReceives/PurchaseReceives';
+import Bills from '../Bills/Bills';
 
 const Home = () => {
   const [isPurchaseDrawerOpen, setIsPurchaseDrawerOpen] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState(null);
+
+  const handleComponentClick = (componentName) => {
+    setSelectedComponent(componentName);
+  };
 
   return (
     <div className='flex flex-row'>
@@ -25,12 +35,11 @@ const Home = () => {
           </li>
           {isPurchaseDrawerOpen && (
             <ul className={`drawer-content ${isPurchaseDrawerOpen ? 'drawer-open' : ''}`} style={{ marginLeft: '12px' }}>
-              <li><a className="hover:text-orange-500">Vendors</a></li>
-              <li><a className="hover:text-orange-500">Expenses</a></li>
-              <li><a className="hover:text-orange-500">Purchase Order</a></li>
-              <li><a className="hover:text-orange-500">Purchase Receives</a></li>
-              <li><a className="hover:text-orange-500">Bills</a></li>
-
+              <li onClick={() => handleComponentClick('Vendors')}><a className="hover:text-orange-500">Vendors</a></li>
+              <li onClick={() => handleComponentClick('Expenses')}><a className="hover:text-orange-500">Expenses</a></li>
+              <li onClick={() => handleComponentClick('PurchaseOrder')}><a className="hover:text-orange-500">Purchase Order</a></li>
+              <li onClick={() => handleComponentClick('PurchaseReceives')}><a className="hover:text-orange-500">Purchase Receives</a></li>
+              <li onClick={() => handleComponentClick('Bills')}><a className="hover:text-orange-500">Bills</a></li>
             </ul>
           )}
           <li><a className="hover:text-orange-500">Sales</a></li>
@@ -41,6 +50,16 @@ const Home = () => {
           <li><a className="hover:text-orange-500">Reports</a></li>
         </ul>
       </div>
+      {selectedComponent && (
+        <div className="basis-3/4">
+          {selectedComponent === 'Vendors' && <Vendors />}
+          {selectedComponent === 'Expenses' && <Expenses />}
+          {selectedComponent === 'PurchaseOrder' && <PurchaseOrder />}
+          {selectedComponent === 'PurchaseReceives' && <PurchaseReceives />}
+          {selectedComponent === 'Bills' && <Bills />}
+        </div>
+      )}
+
     </div>
   );
 };
