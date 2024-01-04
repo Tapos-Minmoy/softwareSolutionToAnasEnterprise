@@ -12,6 +12,8 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import Home from './components/Home/Home';
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import UnProtectedRoute from "./components/UnProtectedRoute/UnProtectedRoute";
+
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import { useUserAuth } from "./context/UserAuthContext";
 
@@ -22,11 +24,15 @@ const router = createBrowserRouter([
    children:[
     {
       path:'/signUp',
-      element:<SignUp></SignUp>
+      element:<UnProtectedRoute>
+                <SignUp></SignUp>
+              </UnProtectedRoute> 
     },
     {
       path:'/login',
-      element:<Login></Login>,
+      element: <UnProtectedRoute>
+                  <Login></Login>
+                </UnProtectedRoute> 
     },
     {
       path:'/forgotPassword',

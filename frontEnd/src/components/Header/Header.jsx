@@ -4,7 +4,7 @@ import { useUserAuth } from "../../context/UserAuthContext";
 
 const Header = () => {
   const { logOut, user } = useUserAuth();
- // const navigate = useNavigate();
+  const navigate = useNavigate(); // Include useNavigate hook
   const handleLogout = async () => {
     try {
       await logOut();
@@ -13,38 +13,32 @@ const Header = () => {
       console.log(error.message);
     }
   };
+
   return (
     <div className="navbar bg-base-100 border border-black">
       <div className="flex-1">
-      {user && (
-        <div className="conditional-menu">
-          <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost btn-circle">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
-              </svg>
-            </label>
-            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-              <li><a>Dashboard</a></li>
-              <li><a>Contact</a></li>
-              <li></li>
-              <li><a>Items</a></li>
-              <li></li>
-              <li><a>Stock In</a></li>
-              <li><a>Stock Out</a></li>
-              <li><a>Invoice</a></li>
-              <li></li>
-              <li><a>Payable</a></li>
-              <li><a>Receivable</a></li>
-              <li><a>Reports</a></li>
-            </ul>
+        {/* Conditional rendering for the menu */}
+        {user && (
+          <div className="conditional-menu md:hidden"> {/* Display only on small screens */}
+            <div className="dropdown">
+              <label tabIndex={0} className="btn btn-ghost btn-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
+                </svg>
+              </label>
+              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <li><a>Dashboard</a></li>
+                <li><a>Contact</a></li>
+                {/* Other list items */}
+                <li><a>Reports</a></li>
+              </ul>
+            </div>
           </div>
-        </div>
-      )}
+        )}
         <img className='w-12' src="src\components\images\Electronic Vehicle Logo.png" alt="" />
       </div>
 
-      {/* Your other header content */}
+      {/* Other header content */}
       {user && (
         <div className="flex-none">
           <div className="form-control">
@@ -53,6 +47,7 @@ const Header = () => {
         </div>
       )}
 
+      {/* Dropdown for user settings */}
       {user && (
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -67,6 +62,7 @@ const Header = () => {
               </a>
             </li>
             <li><a>Settings</a></li>
+            {/* Logout */}
             <li><a onClick={handleLogout}>Logout</a></li>
           </ul>
         </div>
