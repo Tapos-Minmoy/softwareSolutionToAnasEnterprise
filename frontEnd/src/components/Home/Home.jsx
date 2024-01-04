@@ -1,27 +1,48 @@
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, { useState } from 'react';
 
 const Home = () => {
-    return (
-        <div className='flex flex-row'>
-            <div className="basis-1/4">
-            <ul className="text-white font-semibold text-xl bg-black menu menu-sm h-screen  z-[1] p-2 shadow w-52 hidden md:block">
-            <li><a className="hover:text-orange-500">Dashboard</a></li>
-            <li><a className="hover:text-orange-500">Contact</a></li>
-            <li></li>
-            <li><a className="hover:text-orange-500">Items</a></li>
-            <li></li>
-            <li><a className="hover:text-orange-500">Stock In/Purchase </a></li>
-            <li><a className="hover:text-orange-500">Stock Out/Sales </a></li>
-            <li><a className="hover:text-orange-500">Invoice</a></li>
-            <li></li>
-            <li><a className="hover:text-orange-500">Payable</a></li>
-            <li><a className="hover:text-orange-500">Receivable</a></li>
-            <li><a className="hover:text-orange-500">Reports</a></li>
-          </ul>
-            </div>
-        </div>
-    );
+  const [isPurchaseDrawerOpen, setIsPurchaseDrawerOpen] = useState(false);
+
+  return (
+    <div className='flex flex-row'>
+      <div className="basis-1/4">
+        <ul className="text-white font-semibold text-xl bg-black menu menu-sm h-screen z-[1] p-2 shadow w-52 hidden md:block">
+          <li><a className="hover:text-orange-500">Dashboard</a></li>
+          <li><a className="hover:text-orange-500">Contact</a></li>
+          <li></li>
+          <li><a className="hover:text-orange-500">Items</a></li>
+          <li></li>
+          <li className="relative">
+            <a
+              className="hover:text-orange-500 flex items-center"
+              onClick={() => setIsPurchaseDrawerOpen(!isPurchaseDrawerOpen)}
+            >
+              Purchase
+              <span className={`ml-2 transition-transform duration-300 ${isPurchaseDrawerOpen ? 'rotate-180' : ''}`}>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              </span>
+            </a>
+          </li>
+          {isPurchaseDrawerOpen && (
+            <ul className={`drawer-content ${isPurchaseDrawerOpen ? 'drawer-open' : ''}`} style={{ marginLeft: '12px' }}>
+              <li><a className="hover:text-orange-500">Vendors</a></li>
+              <li><a className="hover:text-orange-500">Expenses</a></li>
+              <li><a className="hover:text-orange-500">Purchase Order</a></li>
+              <li><a className="hover:text-orange-500">Purchase Receives</a></li>
+              <li><a className="hover:text-orange-500">Bills</a></li>
+
+            </ul>
+          )}
+          <li><a className="hover:text-orange-500">Sales</a></li>
+          <li><a className="hover:text-orange-500">Invoice</a></li>
+          <li></li>
+          <li><a className="hover:text-orange-500">Payable</a></li>
+          <li><a className="hover:text-orange-500">Receivable</a></li>
+          <li><a className="hover:text-orange-500">Reports</a></li>
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default Home;
