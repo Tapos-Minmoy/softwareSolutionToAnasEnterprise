@@ -2,9 +2,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-const Vendors = ({ selectedComponent, setSelectedComponent  }) => {
+const InventoryAdjustments = ({ selectedComponent, setSelectedComponent  }) => {
     const handleComponentClick = (componentName) => {
       setSelectedComponent(componentName);
+      window.location.hash = componentName;
     };
     return (
         <div>
@@ -54,4 +55,4 @@ const Vendors = ({ selectedComponent, setSelectedComponent  }) => {
     );
 };
 
-export default Vendors;
+export default InventoryAdjustments;

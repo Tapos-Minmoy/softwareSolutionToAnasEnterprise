@@ -25,13 +25,12 @@ const PaymentsMade = ({ selectedComponent, setSelectedComponent  }) => {
       <tr>
         <th></th>
         <th>Date</th>
-        <th>Reason</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Reference Number</th>
-        <th>Created by</th>
-        <th>Created Time</th>
-        <th>Last Modified By</th>
+        <th>Payment#</th>
+        <th>Referenc#</th>
+        <th>Venodor Name</th>
+        <th>Bill#</th>
+        <th>MODE</th>
+        <th>Amount</th>
       </tr>
     </thead>
     <tbody>
@@ -40,7 +39,6 @@ const PaymentsMade = ({ selectedComponent, setSelectedComponent  }) => {
         <th>1</th>
         <td>Cy Ganderton</td>
         <td>Quality Control Specialist</td>
-        <td>Blue</td>
         <td>Blue</td>
         <td>Blue</td>
         <td>Blue</td>

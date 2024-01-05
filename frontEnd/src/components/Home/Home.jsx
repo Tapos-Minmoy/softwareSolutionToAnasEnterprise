@@ -1,10 +1,10 @@
 import React, { useState , useEffect } from 'react';
-import Vendors from '../Vendors/Vendors';
+import Vendors from '../InventoryAdjustments/InventoryAdjustments';
 import Expenses from '../Expenses/Expenses';
 import PurchaseOrder from '../PurchaseOrder/PurchaseOrder';
 import PurchaseReceives from '../PurchaseReceives/PurchaseReceives';
 import Bills from '../Bills/Bills';
-import AddNewVendor from '../AddNewVendor/AddNewVendor';
+import AddNewVendor from '../AddNewInventory/AddNewInventory';
 import PaymentsMade from '../PaymentsMade/PaymentsMade';
 import AddNewPayment from '../AddNewPayment/AddNewPayment';
 
@@ -26,7 +26,7 @@ const Home = () => {
 
   return (
     <div className='flex flex-row'>
-      <div className="basis-1/5">
+      <div className="basis-1/5 ">
         <ul className="text-white font-semibold text-xl bg-black menu menu-sm h-screen z-[1] p-2 shadow w-52 hidden md:block">
           <li><a className="hover:text-orange-500">Dashboard</a></li>
           <li><a className="hover:text-orange-500">Contact</a></li>
