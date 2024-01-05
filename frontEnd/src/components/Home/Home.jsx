@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import Vendors from '../Vendors/Vendors';
 import Expenses from '../Expenses/Expenses';
 import PurchaseOrder from '../PurchaseOrder/PurchaseOrder';
 import PurchaseReceives from '../PurchaseReceives/PurchaseReceives';
 import Bills from '../Bills/Bills';
 import AddNewVendor from '../AddNewVendor/AddNewVendor';
+import PaymentsMade from '../PaymentsMade/PaymentsMade';
 
 const Home = () => {
   const [isPurchaseDrawerOpen, setIsPurchaseDrawerOpen] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState(null);
 
+  useEffect(() => {
+    const hash = window.location.hash.slice(1); // Remove the leading #
+    if (hash) {
+      setSelectedComponent(hash);
+    }
+  }, []); // Empty dependency array to run only once on component mount
+
   const handleComponentClick = (componentName) => {
     setSelectedComponent(componentName);
+    window.location.hash = componentName;
   };
 
   return (
@@ -41,6 +50,7 @@ const Home = () => {
               <li onClick={() => handleComponentClick('PurchaseOrder')}><a className="hover:text-orange-500">Purchase Order</a></li>
               <li onClick={() => handleComponentClick('PurchaseReceives')}><a className="hover:text-orange-500">Purchase Receives</a></li>
               <li onClick={() => handleComponentClick('Bills')}><a className="hover:text-orange-500">Bills</a></li>
+              <li onClick={() => handleComponentClick('PaymentsMade')}><a className="hover:text-orange-500">Payments Made</a></li>
             </ul>
           )}
           <li><a className="hover:text-orange-500">Sales</a></li>
@@ -59,6 +69,7 @@ const Home = () => {
           {selectedComponent === 'PurchaseReceives' && <PurchaseReceives />}
           {selectedComponent === 'Bills' && <Bills />}
           {selectedComponent === 'AddNewVendor' && <AddNewVendor />}
+          {selectedComponent === 'PaymentsMade' && <PaymentsMade />}
         </div>
       )}
 

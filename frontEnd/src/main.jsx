@@ -15,8 +15,6 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import UnProtectedRoute from "./components/UnProtectedRoute/UnProtectedRoute";
 
 import { UserAuthContextProvider } from "./context/UserAuthContext";
-import Vendors from './components/Vendors/Vendors';
-import NewPage from './components/NewPage/Newpage';
 
 const router = createBrowserRouter([
 {

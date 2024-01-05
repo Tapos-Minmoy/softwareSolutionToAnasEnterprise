@@ -7,15 +7,15 @@ const Vendors = ({ selectedComponent, setSelectedComponent  }) => {
       setSelectedComponent(componentName);
     };
     return (
-       <div>
-        <div className="navbar bg-base-100 ">
-  <div className="navbar-start">
-    <a className="btn btn-ghost text-xl">Inventory Adjustments</a>
-  </div>
-  <div className="navbar-end" onClick={() => handleComponentClick('AddNewVendor')}>
-    <a className="btn">+NEW</a>
-  </div>
-</div>
+        <div>
+          <div className="navbar bg-base-100 ">
+            <div className="navbar-start">
+            <a className="btn btn-ghost text-xl">Inventory Adjustments</a>
+          </div>
+          <div className="navbar-end" onClick={() => handleComponentClick('AddNewVendor')}>
+            <a className="btn">+NEW</a>
+           </div>
+        </div>
 
         {/* ......?table............ */}
          <div className="overflow-x-auto">
