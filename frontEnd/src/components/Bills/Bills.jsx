@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import {Link} from 'react-router-dom';
 
 const Bills = ({ selectedComponent, setSelectedComponent  }) => {
     const handleComponentClick = (componentName) => {
@@ -26,13 +25,13 @@ const Bills = ({ selectedComponent, setSelectedComponent  }) => {
       <tr>
         <th></th>
         <th>Date</th>
-        <th>Reason</th>
-        <th>Description</th>
+        <th>Bill</th>
+        <th>Reference</th>
+        <th>Vendor Name</th>
         <th>Status</th>
-        <th>Reference Number</th>
-        <th>Created by</th>
-        <th>Created Time</th>
-        <th>Last Modified By</th>
+        <th>Due date</th>
+        <th>Amount</th>
+        <th>Balance Due</th>
       </tr>
     </thead>
     <tbody>
