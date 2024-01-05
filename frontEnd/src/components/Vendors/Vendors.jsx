@@ -25,14 +25,12 @@ const Vendors = ({ selectedComponent, setSelectedComponent  }) => {
     <thead>
       <tr>
         <th></th>
-        <th>Date</th>
-        <th>Reason</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Reference Number</th>
-        <th>Created by</th>
-        <th>Created Time</th>
-        <th>Last Modified By</th>
+        <th>Name</th>
+        <th>Company Name</th>
+        <th>Email</th>
+        <th>Work Phone</th>
+        <th>Payable</th>
+        <th>Unused Credits</th>
       </tr>
     </thead>
     <tbody>
@@ -41,12 +39,11 @@ const Vendors = ({ selectedComponent, setSelectedComponent  }) => {
         <th>1</th>
         <td>Cy Ganderton</td>
         <td>Quality Control Specialist</td>
-        <td>Blue</td>
-        <td>Blue</td>
-        <td>Blue</td>
-        <td>Blue</td>
-        <td>Blue</td>
-        <td>Blue</td>
+        <td>Blue@gamil.com</td>
+        <td>01****</td>
+        <td>181</td>
+        <td>28832</td>
+       
       </tr>
     </tbody>
   </table>
