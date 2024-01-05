@@ -1,12 +1,13 @@
 import React, { useState , useEffect } from 'react';
-import Vendors from '../InventoryAdjustments/InventoryAdjustments';
+import Vendors from '../Vendors/Vendors';
 import Expenses from '../Expenses/Expenses';
 import PurchaseOrder from '../PurchaseOrder/PurchaseOrder';
 import PurchaseReceives from '../PurchaseReceives/PurchaseReceives';
 import Bills from '../Bills/Bills';
-import AddNewVendor from '../AddNewInventory/AddNewInventory';
+import AddNewVendor from '../AddNewVendor/AddNewVendor';
 import PaymentsMade from '../PaymentsMade/PaymentsMade';
 import AddNewPayment from '../AddNewPayment/AddNewPayment';
+import AddNewBill from '../AddNewBill/AddNewBill';
 
 const Home = () => {
   const [isPurchaseDrawerOpen, setIsPurchaseDrawerOpen] = useState(false);
@@ -68,11 +69,12 @@ const Home = () => {
           {selectedComponent === 'Expenses' && <Expenses />}
           {selectedComponent === 'PurchaseOrder' && <PurchaseOrder />}
           {selectedComponent === 'PurchaseReceives' && <PurchaseReceives />}
-          {selectedComponent === 'Bills' && <Bills />}
+          {selectedComponent === 'Bills' && <Bills selectedComponent={selectedComponent} setSelectedComponent={setSelectedComponent} />}
           {selectedComponent === 'AddNewVendor' && <AddNewVendor />}
           {selectedComponent === 'PaymentsMade' && <PaymentsMade selectedComponent={selectedComponent} setSelectedComponent={setSelectedComponent} />}
           {selectedComponent === 'AddNewPayment' && <AddNewPayment />}
-         
+          {selectedComponent === 'AddNewBill' && <AddNewBill />}
+
         </div>
       )}
 

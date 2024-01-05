@@ -2,7 +2,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-const Bills = ({ selectedComponent, setSelectedComponent  }) => {
+const Vendors = ({ selectedComponent, setSelectedComponent  }) => {
     const handleComponentClick = (componentName) => {
       setSelectedComponent(componentName);
       window.location.hash = componentName;
@@ -11,9 +11,9 @@ const Bills = ({ selectedComponent, setSelectedComponent  }) => {
         <div>
           <div className="navbar bg-base-100 ">
             <div className="navbar-start">
-            <a className="btn btn-ghost text-xl">All Bills</a>
+            <a className="btn btn-ghost text-xl">Vendors</a>
           </div>
-          <div className="navbar-end" onClick={() => handleComponentClick('AddNewBill')}>
+          <div className="navbar-end" onClick={() => handleComponentClick('AddNewVendor')}>
             <a className="btn">+NEW</a>
            </div>
         </div>
@@ -55,4 +55,4 @@ const Bills = ({ selectedComponent, setSelectedComponent  }) => {
     );
 };
 
-export default Bills;
+export default Vendors;
