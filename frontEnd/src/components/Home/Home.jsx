@@ -6,6 +6,7 @@ import PurchaseReceives from '../PurchaseReceives/PurchaseReceives';
 import Bills from '../Bills/Bills';
 import AddNewVendor from '../AddNewVendor/AddNewVendor';
 import PaymentsMade from '../PaymentsMade/PaymentsMade';
+import AddNewPayment from '../AddNewPayment/AddNewPayment';
 
 const Home = () => {
   const [isPurchaseDrawerOpen, setIsPurchaseDrawerOpen] = useState(false);
@@ -69,7 +70,9 @@ const Home = () => {
           {selectedComponent === 'PurchaseReceives' && <PurchaseReceives />}
           {selectedComponent === 'Bills' && <Bills />}
           {selectedComponent === 'AddNewVendor' && <AddNewVendor />}
-          {selectedComponent === 'PaymentsMade' && <PaymentsMade />}
+          {selectedComponent === 'PaymentsMade' && <PaymentsMade selectedComponent={selectedComponent} setSelectedComponent={setSelectedComponent} />}
+          {selectedComponent === 'AddNewPayment' && <AddNewPayment />}
+         
         </div>
       )}
 
