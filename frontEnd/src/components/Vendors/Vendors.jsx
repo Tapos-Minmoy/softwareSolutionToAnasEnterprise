@@ -2,15 +2,18 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-const Vendors = () => {
+const Vendors = ({ selectedComponent, setSelectedComponent  }) => {
+    const handleComponentClick = (componentName) => {
+      setSelectedComponent(componentName);
+    };
     return (
        <div>
         <div className="navbar bg-base-100 ">
   <div className="navbar-start">
     <a className="btn btn-ghost text-xl">Inventory Adjustments</a>
   </div>
-  <div className="navbar-end">
-    <Link to="/new" className="btn">+NEW</Link>
+  <div className="navbar-end" onClick={() => handleComponentClick('AddNewVendor')}>
+    <a className="btn">+NEW</a>
   </div>
 </div>
 

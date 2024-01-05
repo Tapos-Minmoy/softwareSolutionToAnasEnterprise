@@ -1,12 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 
-const NewPage = () => {
+const AddNewVendor = () => {
     return (
         <div>
-            <h1>New Page</h1> 
+            <h1>AddNewVendor</h1> 
         </div>
     );
 };
 
-export default NewPage;
+export default AddNewVendor;

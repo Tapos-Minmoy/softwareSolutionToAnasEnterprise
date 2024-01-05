@@ -51,20 +51,7 @@ const router = createBrowserRouter([
       element: <ProtectedRoute>
              <Home />
           </ProtectedRoute>,
-    },
-    {
-      path: '/vendors',
-      element: <Vendors>
-        <Home />
-      </Vendors>,
-    },
-   
-    {
-      path: '/new',
-      element: <NewPage>
-      <Home></Home>
-      </NewPage>,
-    },
+    }
    
    ]
 },
