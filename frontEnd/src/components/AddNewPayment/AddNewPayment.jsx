@@ -13,6 +13,45 @@ const AddNewPayment = () => {
   const [payFullAmount, setPayFullAmount] = useState(false);
   const [fullAmount, setFullAmount] = useState(0); // Assuming you'll fetch full amount from databas
 
+  const [paymentDate, setPaymentDate] = useState("");
+  const [paymentMode, setPaymentMode] = useState("");
+  const paymentModes = [
+    "Cash",
+    "Bank Transfer",
+    "Cheque",
+    "Bkash",
+    "Nagad",
+    "Other",
+  ]; // Define payment modes
+
+  const [billData, setBillData] = useState([]);
+  const [totalAmountDue, setTotalAmountDue] = useState(0);
+  const [totalPayment, setTotalPayment] = useState(0);
+
+  useEffect(() => {
+    // Fetch bill data from the database
+    fetchBillData();
+  }, []);
+
+  const fetchBillData = async () => {
+    // Replace with your database fetching logic
+    const fetchedData = await fetchBillsFromDatabase();
+    setBillData(fetchedData);
+    setTotalAmountDue(
+      fetchedData.reduce((sum, bill) => sum + bill.amountDue, 0)
+    );
+  };
+
+  const handlePaymentChange = (index, value) => {
+    const updatedBills = [...billData];
+    updatedBills[index].payment = value;
+    setBillData(updatedBills);
+
+    const updatedTotalPayment =
+      totalPayment + (value - billData[index].payment);
+    setTotalPayment(updatedTotalPayment);
+  };
+
   useEffect(() => {
     // Fetch a new payment number from the database (replace with your actual logic)
     fetchPaymentNumber()
@@ -195,8 +234,99 @@ const AddNewPayment = () => {
             />
           </div>
         </div>
+
+        {/* date and payment mode */}
+        <div className="flex flex-row justify-content-between">
+          <div className="flex items-center mb-4">
+            <label htmlFor="payment-date" className="w-1/2 text-red-500 mr-4">
+              Payment Date: *
+            </label>
+            <div className="w-2/3">
+              <input
+                type="date"
+                id="payment-date"
+                value={paymentDate}
+                onChange={(e) => setPaymentDate(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center ml-4">
+            <label htmlFor="payment-mode" className="w-1/2 text-red-500 ml-10">
+              Payment Mode: *
+            </label>
+            <div className="w-1/2">
+              <select
+                id="payment-mode"
+                value={paymentMode}
+                onChange={(e) => setPaymentMode(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
+              >
+                {paymentModes.map((mode) => (
+                  <option key={mode} value={mode}>
+                    {mode}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Bills to pay of this vendor available */}
+        <table className="table w-full mt-4">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Bill#</th>
+              <th>PO#</th>
+              <th>Bill Amount</th>
+              <th>Amount Due</th>
+              <th>Payment</th>
+            </tr>
+          </thead>
+          <tbody>
+            {billData.map((bill, index) => (
+              <tr key={bill.id}>
+                <td>{bill.date}</td>
+                <td>{bill.billNumber}</td>
+                <td>{bill.poNumber}</td>
+                <td>{bill.billAmount}</td>
+                <td>{bill.amountDue}</td>
+                <td>
+                  <input
+                    type="number"
+                    value={bill.payment}
+                    onChange={(e) => handlePaymentChange(index, e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </td>
+              </tr>
+            ))}
+
+            <tr>
+              <td colSpan="6" className="border-b border-t">
+                {/* Horizontal line visually created using borders */}
+              </td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td className="text-center">Total:</td>
+              {/* <td>{totalAmountDue}</td> */}
+
+              <td className="text-center">{totalPayment}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
+      {/* save and cancel button footer */}
       <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white">
         <button
           type="button"
