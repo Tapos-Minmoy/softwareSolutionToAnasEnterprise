@@ -131,10 +131,20 @@ const AddNewPayment = () => {
                 <ul className="py-2 max-h-60 overflow-y-auto">
                   {/* ... */}
 
+                  																									
+
+<li className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300"
+
+onClick={() => handleVendorSelect("Abu Taher") }>Abu Taher</li>
+	
+<li className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300"
+
+onClick={() => handleVendorSelect("Rana Mia") }>Rana Mia</li>
+
                   {vendorOptions.map((vendor) => (
                     <li
                       key={vendor.id}
-                      className="cursor-pointer bg-blue-200 hover:bg-gray-400 mb-1 border border-gray-300" // Add border here
+                      className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300" // Add border here
                       onClick={() => handleVendorSelect(vendor.name)}
                     >
                       {vendor.name}
