@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ShowVendorDetails from "../ShowVendorDetails/ShowVendorDetails";
+import ShowVendorDetails from "./ShowVendorDetails";
 
 const AddNewPayment = () => {
   const [vendorName, setVendorName] = useState(""); // Vendor name state
