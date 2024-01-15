@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import ShowcustomerDetails from "./ShowCustomerDetails";
-import AddNewCustomer from "./AddNewCustomer"; // Import the new component
+import ShowVendorDetails from "./ShowVendorDetails";
+import AddNewVendorPopUp from "./AddNewVendorPopUp"; // Import the new component
 import ItemTable from "./ItemTable";
 
 const AddNewInvoice = () => {
-  const [customerName, setCustomerName] = useState(""); // Customer name state
-  const [isCustomerDropdownOpen, setIsCustomerDropdownOpen] = useState(false); // Dropdown visibility state
-  const [customerOptions, setCustomerOptions] = useState([]); // List of customer options from database (assumed)
+  const [vendorName, setVendorName] = useState(""); // vendor name state
+  const [isVendorDropdownOpen, setIsVendorDropdownOpen] = useState(false); // Dropdown visibility state
+  const [vendorOptions, setVendorOptions] = useState([]); // List of vendor options from database (assumed)
   const [paymentNumber, setPaymentNumber] = useState("");
-  const [showCustomerDetails, setShowCustomerDetails] = useState(false);
-  const [customerDetails, setCustomerDetails] = useState(null);
+  const [showVendorDetails, setShowVendorDetails] = useState(false);
+  const [vendorDetails, setVendorDetails] = useState(null);
 
-  const [showAddCustomerModal, setShowAddCustomerModal] = useState(false);
+  const [showAddVendorModal, setShowAddVendorModal] = useState(false);
 
   const [invoiceDate, setInvoiceDate] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -63,23 +63,23 @@ const AddNewInvoice = () => {
 
   const fetchPaymentNumber = async () => {
     // Replace with your database logic to fetch a new payment number
-    return "INV-12345"; // Example placeholder
+    return "BILL-12345"; // Example placeholder
   };
 
-  // Function to handle customer dropdown toggle
-  const toggleCustomerDropdown = () => {
-    setIsCustomerDropdownOpen(!isCustomerDropdownOpen);
+  // Function to handle Vendor dropdown toggle
+  const toggleVendorDropdown = () => {
+    setIsVendorDropdownOpen(!isVendorDropdownOpen);
   };
 
-  // Function to handle Customer selection
-  const handleCustomerSelect = (selectedCustomer) => {
-    setCustomerName(selectedCustomer);
-    toggleCustomerDropdown();
+  // Function to handle Vendor selection
+  const handleVendorSelect = (selectedVendor) => {
+    setVendorName(selectedVendor);
+    toggleVendorDropdown();
   };
 
-  // Function to validate Customer name
-  const validateCustomerName = () => {
-    return customerName.trim() !== "";
+  // Function to validate Vendor name
+  const validateVendorName = () => {
+    return vendorName.trim() !== "";
   };
 
   // Render component
@@ -88,7 +88,7 @@ const AddNewInvoice = () => {
       <div className="overflow-y-auto max-h-screen">
         {/* Header */}
         <header className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">Record New Invoice</h1>
+          <h1 className="text-2xl font-bold">Record New Bill</h1>
           <button className="text-gray-500 hover:text-gray-700">
             <svg
               className="w-6 h-6"
@@ -105,29 +105,29 @@ const AddNewInvoice = () => {
           </button>
         </header>
 
-        {/* Customer Name Field */}
+        {/* vendor Name Field */}
         <div className=" flex items-center mb-4 ">
-          <label htmlFor="Customer-name" className="w-1/4 text-gray-700">
-            Customer Name:
+          <label htmlFor="vendor-name" className="w-1/4 text-gray-700">
+            vendor Name:
           </label>
           <div className="relative w-2/3 mr-2">
             <input
               type="text"
-              id="Customer-name"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
+              id="vendor-name"
+              value={vendorName}
+              onChange={(e) => setVendorName(e.target.value)}
               className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${
-                !validateCustomerName() && "border-red-500" // Add red border for invalid input
+                !validateVendorName() && "border-red-500" // Add red border for invalid input
               }`}
-              onClick={toggleCustomerDropdown}
+              onClick={toggleVendorDropdown}
               required // Make input field required
             />
-            {isCustomerDropdownOpen && (
-              // Customer Dropdown
+            {isVendorDropdownOpen && (
+              // Vendor Dropdown
               <div className="absolute z-10 w-full mt-1 bg-white shadow-md rounded-md">
                 <input
                   type="text"
-                  placeholder="Search Customers..."
+                  placeholder="Search vendors..."
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
                 <ul className="py-2 max-h-60 overflow-y-auto">
@@ -135,52 +135,52 @@ const AddNewInvoice = () => {
 
                   <li
                     className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300"
-                    onClick={() => handleCustomerSelect("Abu Taher")}
+                    onClick={() => handleVendorSelect("Abu Taher")}
                   >
                     Abu Taher
                   </li>
 
                   <li
                     className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300"
-                    onClick={() => handleCustomerSelect("Rana Mia")}
+                    onClick={() => handleVendorSelect("Rana Mia")}
                   >
                     Rana Mia
                   </li>
 
-                  {customerOptions.map((customer) => (
+                  {vendorOptions.map((vendor) => (
                     <li
-                      key={customer.id}
+                      key={vendor.id}
                       className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300" // Add border here
-                      onClick={() => handleCustomerSelect(customer.name)}
+                      onClick={() => handleVendorSelect(vendor.name)}
                     >
-                      {customer.name}
+                      {vendor.name}
                     </li>
                   ))}
                 </ul>
                 <a
                   className="text-blue-500 hover:text-blue-600 cursor-pointer"
-                  onClick={() => setShowAddCustomerModal(true)}
+                  onClick={() => setShowAddVendorModal(true)}
                 >
-                  + New Customer
+                  + New Vendor
                 </a>
               </div>
             )}
 
-            {showAddCustomerModal && (
-              <AddNewCustomer
+            {showAddVendorModal && (
+              <AddNewVendorPopUp
                 onClose={() => {
-                  setShowAddCustomerModal(false);
-                  setIsCustomerDropdownOpen(false);
+                  setShowAddVendorModal(false);
+                  setIsVendorDropdownOpen(false);
                 }}
-                onCustomerAdded={() => {
-                  // Handle customer addition logic, e.g., fetch updated customer options
-                  setIsCustomerDropdown(false); // Close the dropdown
+                onVendorAdded={() => {
+                  // Handle Vendor addition logic, e.g., fetch updated Vendor options
+                  setIsVendorDropdown(false); // Close the dropdown
                 }}
               />
             )}
-            {!validateCustomerName() && (
+            {!validateVendorName() && (
               <div className="text-red-500 text-xs italic">
-                Customer name is required
+                Vendor name is required
               </div>
             )}
           </div>
@@ -188,20 +188,20 @@ const AddNewInvoice = () => {
           {/* View venor details */}
 
           <div className="flex items-center mb-4">
-            {customerName && (
+            {vendorName && (
               <a
                 className="text-blue-500 hover:underline"
-                onClick={() => setShowCustomerDetails(true)}
+                onClick={() => setShowVendorDetails(true)}
               >
-                View Customer Details
+                View Vendor Details
               </a>
             )}
           </div>
 
-          {showCustomerDetails && (
-            <ShowCustomerDetails
-              CustomerDetails={CustomerDetails}
-              onClose={() => setShowCustomerDetails(false)}
+          {showVendorDetails && (
+            <ShowVendorDetails
+              vendorDetails={vendorDetails}
+              onClose={() => setShowVendorDetails(false)}
             />
           )}
 
@@ -280,7 +280,7 @@ const AddNewInvoice = () => {
           </div>
         </div>
 
-        {/* Bills to pay of this Customer available */}
+        {/* Bills to pay of this Vendor available */}
 
         <div className="mt-5 ml-4 font-bold">Items Sold</div>
         <ItemTable />
