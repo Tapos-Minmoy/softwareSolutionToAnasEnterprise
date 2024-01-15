@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import {Link} from 'react-router-dom';
+
 
 const Vendors = ({ selectedComponent, setSelectedComponent  }) => {
     const handleComponentClick = (componentName) => {
@@ -9,7 +9,7 @@ const Vendors = ({ selectedComponent, setSelectedComponent  }) => {
     };
     return (
         <div>
-          <div className="navbar bg-base-100 ">
+          <div className="navbar bg-base-100 p-4">
             <div className="navbar-start">
             <a className="btn btn-ghost text-xl">Vendors</a>
           </div>
