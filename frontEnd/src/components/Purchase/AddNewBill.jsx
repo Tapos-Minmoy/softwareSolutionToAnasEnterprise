@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ShowVendorDetails from "./ShowVendorDetails";
 import AddNewVendorPopUp from "./AddNewVendorPopUp"; // Import the new component
 import ItemTable from "./ItemTable";
-import NewVendorForm from "./NewVendorForm"; 
+import NewVendorForm from "./NewVendorForm";
 
 const AddNewInvoice = () => {
   const [vendorName, setVendorName] = useState(""); // vendor name state
@@ -181,14 +181,18 @@ const AddNewInvoice = () => {
               </div>
             )}
 
-{showAddVendorModal && (
-        <div className="absolute z-10 w-full mt-1 bg-white shadow-md rounded-md">
-          <NewVendorForm
-            onSave={handleNewVendorSave}
-            onCancel={handleNewVendorCancel}
-          />
-        </div>
-      )}
+            {showAddVendorModal && (
+              <AddNewVendorPopUp
+                onClose={() => {
+                  setShowAddVendorModal(false);
+                  setIsVendorDropdownOpen(false);
+                }}
+                onVendorAdded={() => {
+                  // Handle Vendor addition logic, e.g., fetch updated Vendor options
+                  setIsVendorDropdown(false); // Close the dropdown
+                }}
+              />
+            )}
           </div>
 
           {/* View venor details */}
@@ -227,8 +231,6 @@ const AddNewInvoice = () => {
             </div>
           </div>
         </div>
-
-
 
         {/* date and payment mode */}
         <div className="flex flex-row justify-content-between ">
@@ -290,23 +292,21 @@ const AddNewInvoice = () => {
 
         <div className="mt-5 ml-4 font-bold">Items Sold</div>
         <ItemTable />
-
-      </div>
-
-      {/* save and cancel button footer */}
-      <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white">
-        <button
-          type="button"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-        >
-          Save
-        </button>
-        <button
-          type="button"
-          className="ml-4 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
-        >
-          Cancel
-        </button>
+        {/* save and cancel button footer */}
+        <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white">
+          <button
+            type="button"
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            className="ml-4 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import AddNewItemPopUp from "./AddNewItemPopUp";
 
 const ItemTable = () => {
   const [items, setItems] = useState([
@@ -22,7 +23,7 @@ const ItemTable = () => {
     setIsItemDropdownOpen(!isItemDropdownOpen);
   };
 
-  const handleItemSelect = (index,item) => {
+  const handleItemSelect = (index, item) => {
     // Update the corresponding table row's item details and rate
     // ... your implementation here
   };
@@ -92,7 +93,11 @@ const ItemTable = () => {
                     <ul className="py-2 max-h-60 overflow-y-auto">
                       {/* Render fetched items directly from state */}
                       {fetchedItems.map((item) => (
-                        <li key={item.id} className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300" onClick={() => handleItemSelect(index,item)}>
+                        <li
+                          key={item.id}
+                          className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300"
+                          onClick={() => handleItemSelect(index, item)}
+                        >
                           {item.name} - {item.rate} - {item.stockCount}
                         </li>
                       ))}
@@ -104,6 +109,19 @@ const ItemTable = () => {
                       </a>
                     </ul>
                   </div>
+                )}
+
+                {showAddItemModal && (
+                  <AddNewItemPopUp
+                    onClose={() => {
+                      setShowAddItemModal(false);
+                      setIsItemDropdownOpen(false);
+                    }}
+                    onItemAdded={() => {
+                      // Handle Vendor addition logic, e.g., fetch updated Vendor options
+                      setIsItemDropdown(false); // Close the dropdown
+                    }}
+                  />
                 )}
 
                 {!validateItemName() && (

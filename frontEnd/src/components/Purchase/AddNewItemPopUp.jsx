@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const AddNewVendorPopUp = ({ onClose }) => {
+const AddNewItemPopUp = ({ onClose }) => {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [companyName, setCompanyName] = React.useState("");
@@ -61,7 +61,7 @@ const AddNewVendorPopUp = ({ onClose }) => {
         <div className="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <h3 className="text-lg leading-6 font-medium text-gray-900 ">
-              Add New Vendor
+              Add New Item
             </h3>
 
             <div className="mt-4">
@@ -222,4 +222,4 @@ const AddNewVendorPopUp = ({ onClose }) => {
   );
 };
 
-export default AddNewVendorPopUp;
+export default AddNewItemPopUp;

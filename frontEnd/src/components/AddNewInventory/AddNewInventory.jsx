@@ -23,7 +23,7 @@ const AddNewInventory = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 ">
       {/* Navbar */}
       <nav className="bg-black p-4 text-white">
         <div className="container mx-auto">
