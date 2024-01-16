@@ -36,8 +36,8 @@ const Home = () => {
   };
 
   return (
-    <div className="flex  flex-column">
-      <div className="w-1/6 h-full">
+    <div className="flex  flex-column pt-16">
+      <div className="w-1/6 h-screen ">
         <ul className="text-white font-semibold text-xl bg-black menu menu-sm h-screen z-[1] p-2 shadow w-52 hidden md:block">
           <li>
             <a className="hover:text-orange-500">Dashboard</a>

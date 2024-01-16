@@ -284,9 +284,6 @@ const AddNewInvoice = () => {
 
         <div className="mt-5 ml-4 font-bold">Items Sold</div>
         <ItemTable />
-
-      </div>
-
       {/* save and cancel button footer */}
       <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white">
         <button
@@ -302,6 +299,9 @@ const AddNewInvoice = () => {
           Cancel
         </button>
       </div>
+      </div>
+
+
     </div>
   );
 };
