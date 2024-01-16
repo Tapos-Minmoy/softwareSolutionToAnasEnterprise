@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ShowVendorDetails from "./ShowVendorDetails";
 import AddNewVendorPopUp from "./AddNewVendorPopUp"; // Import the new component
 import ItemTable from "./ItemTable";
+import NewVendorForm from "./NewVendorForm"; 
 
 const AddNewInvoice = () => {
   const [vendorName, setVendorName] = useState(""); // vendor name state
@@ -12,6 +13,20 @@ const AddNewInvoice = () => {
   const [vendorDetails, setVendorDetails] = useState(null);
 
   const [showAddVendorModal, setShowAddVendorModal] = useState(false);
+  const handleAddVendorClick = () => {
+    setShowAddVendorModal(true);
+  };
+  const handleNewVendorSave = (formData) => {
+    // Handle the logic to save the new vendor data (e.g., API call, database update)
+    console.log("New Vendor Form Data:", formData);
+
+    // Close the modal
+    setShowAddVendorModal(false);
+  };
+  // Function to handle form cancellation and close the modal
+  const handleNewVendorCancel = () => {
+    setShowAddVendorModal(false);
+  };
 
   const [invoiceDate, setInvoiceDate] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -97,9 +112,9 @@ const AddNewInvoice = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
           </button>
@@ -166,23 +181,14 @@ const AddNewInvoice = () => {
               </div>
             )}
 
-            {showAddVendorModal && (
-              <AddNewVendorPopUp
-                onClose={() => {
-                  setShowAddVendorModal(false);
-                  setIsVendorDropdownOpen(false);
-                }}
-                onVendorAdded={() => {
-                  // Handle Vendor addition logic, e.g., fetch updated Vendor options
-                  setIsVendorDropdown(false); // Close the dropdown
-                }}
-              />
-            )}
-            {!validateVendorName() && (
-              <div className="text-red-500 text-xs italic">
-                Vendor name is required
-              </div>
-            )}
+{showAddVendorModal && (
+        <div className="absolute z-10 w-full mt-1 bg-white shadow-md rounded-md">
+          <NewVendorForm
+            onSave={handleNewVendorSave}
+            onCancel={handleNewVendorCancel}
+          />
+        </div>
+      )}
           </div>
 
           {/* View venor details */}
@@ -284,6 +290,9 @@ const AddNewInvoice = () => {
 
         <div className="mt-5 ml-4 font-bold">Items Sold</div>
         <ItemTable />
+
+      </div>
+
       {/* save and cancel button footer */}
       <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white">
         <button
@@ -299,9 +308,6 @@ const AddNewInvoice = () => {
           Cancel
         </button>
       </div>
-      </div>
-
-
     </div>
   );
 };
