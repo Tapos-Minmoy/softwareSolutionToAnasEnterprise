@@ -4,7 +4,7 @@ import AddNewVendorPopUp from "./AddNewVendorPopUp"; // Import the new component
 import ItemTable from "./ItemTable";
 import NewVendorForm from "./NewVendorForm";
 
-const AddNewInvoice = () => {
+const AddNewBill = () => {
   const [vendorName, setVendorName] = useState(""); // vendor name state
   const [isVendorDropdownOpen, setIsVendorDropdownOpen] = useState(false); // Dropdown visibility state
   const [vendorOptions, setVendorOptions] = useState([]); // List of vendor options from database (assumed)
@@ -45,19 +45,7 @@ const AddNewInvoice = () => {
   const [totalAmountDue, setTotalAmountDue] = useState(0);
   const [totalPayment, setTotalPayment] = useState(0);
 
-  useEffect(() => {
-    // Fetch bill data from the database
-    fetchBillData();
-  }, []);
 
-  const fetchBillData = async () => {
-    // Replace with your database fetching logic
-    const fetchedData = await fetchBillsFromDatabase();
-    setBillData(fetchedData);
-    setTotalAmountDue(
-      fetchedData.reduce((sum, bill) => sum + bill.amountDue, 0)
-    );
-  };
 
   const handlePaymentChange = (index, value) => {
     const updatedBills = [...billData];
@@ -291,7 +279,7 @@ const AddNewInvoice = () => {
         {/* Bills to pay of this Vendor available */}
 
         <div className="mt-5 ml-4 font-bold">Items Sold</div>
-        <ItemTable />
+          <ItemTable />
         {/* save and cancel button footer */}
         <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white">
           <button
@@ -312,4 +300,4 @@ const AddNewInvoice = () => {
   );
 };
 
-export default AddNewInvoice;
+export default AddNewBill;

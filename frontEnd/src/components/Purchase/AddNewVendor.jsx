@@ -30,7 +30,7 @@ const AddNewVendor = () => {
   };
 
   return (
-    <div className="w-full mx-auto bg-white rounded shadow-md">
+    <div className="w-full mx-auto bg-white rounded shadow-md overflow-y-auto max-h-screen md-40">
       <h2 className="text-2xl font-bold mb-4">New Vendor</h2>
 
       <div className="flex mb-4">

@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { Navigate } from 'react-router-dom';
 import './index.css'
 import {
   createBrowserRouter,
@@ -23,9 +24,7 @@ const router = createBrowserRouter([
    children:[
     {
       path: '/',
-      element: <ProtectedRoute>
-             <Home />
-          </ProtectedRoute>,        
+      element:  <Navigate to="/home" replace />,       
     },
     {
       path:'/signUp',
