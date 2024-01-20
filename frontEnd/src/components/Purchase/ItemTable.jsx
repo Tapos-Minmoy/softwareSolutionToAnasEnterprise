@@ -4,11 +4,10 @@ import axios from "axios";
 
 const ItemTable = () => {
   const [items, setItems] = useState([
-    { itemName: "", quantity: 0, rate: 0, amount: 0 }, // Initial row
+    { itemName: "", quantity: 0, rate: 0, amount: 0 ,ok:0 }, // Initial row
   ]);
 
   // Variables
-  const mp = new Map();
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const [cntOfRow, setCntOfRow] = useState(1);
   const [fetchedItems, setFetchedItems] = useState([]);
@@ -23,15 +22,18 @@ const ItemTable = () => {
   }, []);
 
   // Functions
-  const toggleItemDropdown = (index) => {
-    console.log(index+5);
-    mp.set(index, 1);
-    console.log(mp.get(index));
+  const toggleItemDropdown = (index,val) => {
+    console.log(index,val);
+
+    setItems((prevItems) =>
+      prevItems.map((row, i) =>
+        i === index ? { ...row, ok: val } : row
+      )
+    );
   };
 
   const handleItemSelect = (index, item) => {
     // Update the corresponding table row's item details and rate
-    mp.set(index,false);
 
     setItems((prevItems) =>
       prevItems.map((row, i) =>
@@ -47,6 +49,8 @@ const ItemTable = () => {
       )
     );
 
+    toggleItemDropdown(index,0);
+
   };
 
   const fetchAvailableItems = async () => {
@@ -55,7 +59,6 @@ const ItemTable = () => {
       const items = await axios.get(
         "http://localhost:8080/api/products/getAllItems"
       );
-      console.log(items);
       setFetchedItems(items.data);
       return items;
     } catch (error) {
@@ -134,7 +137,7 @@ const ItemTable = () => {
             <td className="px-4 py-2">
               {/* Implement item dropdown here, similar to customer dropdown */}
               <div className="relative w-full"
-              onClick={ ()=> toggleItemDropdown(index)}
+              
               >
                 <input
                   type="text"
@@ -143,11 +146,11 @@ const ItemTable = () => {
                   className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${
                      "border-red-500"
                   }`}
+                  onClick={ ()=> toggleItemDropdown(index,(item.ok===1)? 0 :1)}
 
                   required
                 />
-                {console.log(index)}
-                {mp.get(index)===1 && (
+                {item.ok===1 && (
                   <div className="absolute z-10 w-full mt-1 bg-white shadow-md rounded-md">
                     <ul className="py-2 max-h-60 overflow-y-auto">
                       {/* Render fetched items directly from state */}
