@@ -2,15 +2,23 @@ import React, { useState, useEffect } from "react";
 import AddNewItemPopUp from "./AddNewItemPopUp";
 import axios from "axios";
 
-const ItemTable = () => {
+const ItemTable = ({ items, setItems ,subTotal , setSubTotal, discount ,setDiscount, adjustment , setAdjustment, total,setTotal}) => {
+  /*
   const [items, setItems] = useState([
-    { itemName: "", quantity: 0, rate: 0, amount: 0 ,ok:0 }, // Initial row
-  ]);
+    { itemName: "", quantity: 0, rate: 0, amount: 0, ok: 0 }, // Initial row
+  ]);*/
 
   // Variables
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const [cntOfRow, setCntOfRow] = useState(1);
   const [fetchedItems, setFetchedItems] = useState([]);
+  const [neetToFetch, setNeedToFetch] = useState(false);
+
+
+
+  useEffect(() => {
+    setTotal(subTotal-discount+adjustment);
+  },[subTotal,discount,adjustment])
 
   useEffect(() => {
     fetchAvailableItems();
@@ -19,16 +27,31 @@ const ItemTable = () => {
     // console.error("Error fetching items:", error);
     // Handle error, e.g., display an error message
     // });
-  }, []);
+  }, [neetToFetch]);
+
+
 
   // Functions
-  const toggleItemDropdown = (index,val) => {
-    console.log(index,val);
 
+  const handleDiscountChange = (discount) =>{
+    discount = Number(discount) || 0;
+    setDiscount(discount); 
+  }
+
+  const handleAdjstmentChange = (adjustment) =>{
+    adjustment = Number(adjustment) || 0;
+    setAdjustment(adjustment); 
+  }
+  const toggleItemDropdown = (index, val) => {
+    console.log(index, val);
+    if (val === 1) {
+      setNeedToFetch(!neetToFetch);
+      setItems((prevItems) =>
+        prevItems.map((row, i) => (i !== index ? { ...row, ok: 0 } : row))
+      );
+    }
     setItems((prevItems) =>
-      prevItems.map((row, i) =>
-        i === index ? { ...row, ok: val } : row
-      )
+      prevItems.map((row, i) => (i === index ? { ...row, ok: val } : row))
     );
   };
 
@@ -44,20 +67,21 @@ const ItemTable = () => {
               quantity: 0,
               rate: 0,
               amount: 0,
+              id: item.id,
             }
           : row
       )
+
     );
 
-    toggleItemDropdown(index,0);
-
+    toggleItemDropdown(index, 0);
   };
 
   const fetchAvailableItems = async () => {
     // Replace with your actual function to fetch items from the database
     try {
       const items = await axios.get(
-        "http://localhost:8080/api/products/getAllItems"
+        "http://localhost:8080/api/getAllItems"
       );
       setFetchedItems(items.data);
       return items;
@@ -68,46 +92,60 @@ const ItemTable = () => {
     }
   };
 
+  function calculateSubTotal() {
+    let subTotal = 0;
+    for (const item of items) {
+      subTotal += item.amount;
+      console.log(item.itemName);
+    }
+    setSubTotal(subTotal);
+  }
 
   const handleQuantityChange = (index, newQuantity) => {
     // Ensure quantity is a valid numerical value
-    const parsedQuantity = parseFloat(newQuantity);
-    /*
-    if (Number.isNaN(parsedQuantity)) {
-      // Handle invalid input, e.g., display an error message
-      return;
-    }*/
+    const parsedQuantity = parseFloat(newQuantity) || 0;
+    const previousAmount = items[index].amount || 0;
+    const previousRate = items[index].rate || 0;
+    const presentAmount=previousRate*parsedQuantity || 0;
+    console.log(previousAmount,subTotal);
+    setSubTotal((subTotal-previousAmount+presentAmount) || (subTotal-previousAmount) || 0);
 
     setItems((prevItems) =>
       prevItems.map((row, i) =>
-        i === index ? { ...row, quantity: Number(newQuantity) || 0 } : row
+        i === index
+          ? {
+              ...row,              
+              quantity: Number(newQuantity) ,
+              amount: (presentAmount) , // Update amount for the row
+            }
+          : row
       )
     );
 
-    // Calculate and update the amount for the modified row
-    const updatedRow = prevItems.find((row, i) => i === index);
-    const amount = parsedQuantity * updatedRow.rate;
-    setItems((prevItems) =>
-      prevItems.map((row, i) => (i === index ? { ...row, amount } : row))
-    );
+    //setSubTotal(calculateSubTotal()); // Calculate and update subTotal
   };
 
   const handleRateChange = (index, newRate) => {
     // Ensure rate is a valid numerical value
-    const parsedRate = parseFloat(newRate);
+    const parsedRate = parseFloat(newRate) || 0;
+    const previousAmount = items[index].amount || 0;
+    const previousQuantity = items[index].quantity || 0;
+    const presentAmount=previousQuantity*parsedRate || 0;
+    setSubTotal((subTotal-previousAmount+presentAmount) || (subTotal-previousAmount) || 0);
 
     setItems((prevItems) =>
       prevItems.map((row, i) =>
-        i === index ? { ...row, rate: parsedRate } : row
+        i === index
+          ? {
+              ...row,
+              rate: Number(parsedRate) ,
+              amount: (Number(presentAmount) ), // Update amount for the row
+            }
+          : row
       )
     );
 
-    // Calculate and update the amount for the modified row
-    const updatedRow = prevItems.find((row, i) => i === index);
-    const amount = updatedRow.quantity * parsedRate;
-    setItems((prevItems) =>
-      prevItems.map((row, i) => (i === index ? { ...row, amount } : row))
-    );
+   // console.log(subTotal);
   };
 
   const handleDelete = (index) => {
@@ -136,21 +174,18 @@ const ItemTable = () => {
           <tr key={index}>
             <td className="px-4 py-2">
               {/* Implement item dropdown here, similar to customer dropdown */}
-              <div className="relative w-full"
-              
-              >
+              <div className="relative w-full">
                 <input
                   type="text"
                   placeholder="Search items..."
                   value={item.itemName}
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${
-                     "border-red-500"
-                  }`}
-                  onClick={ ()=> toggleItemDropdown(index,(item.ok===1)? 0 :1)}
-
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${"border-red-500"}`}
+                  onClick={() =>
+                    toggleItemDropdown(index, item.ok === 1 ? 0 : 1)
+                  }
                   required
                 />
-                {item.ok===1 && (
+                {item.ok === 1 && (
                   <div className="absolute z-10 w-full mt-1 bg-white shadow-md rounded-md">
                     <ul className="py-2 max-h-60 overflow-y-auto">
                       {/* Render fetched items directly from state */}
@@ -187,11 +222,11 @@ const ItemTable = () => {
                   />
                 )}
 
-                { (
+                {
                   <div className="text-red-500 text-xs italic">
                     Item name is required
                   </div>
-                )}
+                }
               </div>
             </td>
             <td className="px-4 py-2">
@@ -204,7 +239,7 @@ const ItemTable = () => {
             </td>
             <td className="px-4 py-2">
               <input
-                type="number"
+                type="text"
                 value={item.rate}
                 onChange={(e) => handleRateChange(index, e.target.value)}
                 className="w-full border rounded-md focus:outline-none"
@@ -243,6 +278,40 @@ const ItemTable = () => {
               + Add New Row
             </a>
           </td>
+        </tr>
+        <tr>
+          <td colSpan="2"></td>
+          <td>Sub Total:</td>
+          <td className="px-4 py-2">{subTotal}</td>
+        </tr>
+        <tr>
+          <td colSpan="2"></td>
+          <td>Discount:</td>
+          <td className="px-4 py-2">
+            <input
+              type="text"
+              value={discount}
+              onChange={(e) => handleDiscountChange(e.target.value)}
+              className="w-full border border-gray-400 focus:outline-none"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="2"></td>
+          <td>Adjustment:</td>
+          <td className="px-4 py-2">
+            <input
+              type="text"
+              value={adjustment}
+              onChange={(e) => handleAdjstmentChange(e.target.value)}
+              className="w-full border border-gray-400 focus:outline-none"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="2"></td>
+          <td>Total:</td>
+          <td className="px-4 py-2">{total}</td>
         </tr>
       </tfoot>
     </table>

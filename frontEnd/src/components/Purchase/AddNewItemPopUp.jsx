@@ -1,15 +1,14 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 const AddNewItemPopUp = ({ onClose }) => {
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
+  const [name, setName] = React.useState("");
   const [companyName, setCompanyName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [phone, setPhone] = React.useState("");
-  const [document, setDocument] = React.useState(null);
+ // const [document, setDocument] = React.useState(null);
   const [vendorDisplayName, setVendorDisplayName] = useState("");
-  const [isVendorDisplayNameUnique, setIsVendorDisplayNameUnique] =
-    useState(true);
+  const [isVendorDisplayNameUnique, setIsVendorDisplayNameUnique] = useState(true);
   const [vendorDisplayNameError, setVendorDisplayNameError] = useState("");
 
   const handleVendorDisplayNameChange = (e) => {
@@ -17,6 +16,20 @@ const AddNewItemPopUp = ({ onClose }) => {
     setIsVendorDisplayNameUnique(true); // Reset uniqueness flag
     setVendorDisplayNameError("");
   };
+
+  const handleSave = async () =>{
+    const data = {
+      Name: name,
+      CompanyName : companyName,
+      VendorDisplayName : vendorDisplayName,
+      EmailAddress: email,
+      PhoneNumber : phone,
+    }
+
+    console.log(data);
+
+    await axios.post('http://localhost:8080/api/addVendor',data)
+  }
 
   useEffect(() => {
     // Check for uniqueness in the database (mocked here, replace with your actual DB logic)
@@ -68,10 +81,10 @@ const AddNewItemPopUp = ({ onClose }) => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="col-span-2 sm:col-span-1">
                   <label
-                    htmlFor="firstName"
+                    htmlFor="name"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    First Name
+                   Name
                   </label>
                   <input
                     type="text"
@@ -79,28 +92,11 @@ const AddNewItemPopUp = ({ onClose }) => {
                     name="firstName"
                     autoComplete="given-name"
                     className="mt-1 border border-gray-400"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
 
-                <div className="col-span-2 sm:col-span-1">
-                  <label
-                    htmlFor="lastName"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    autoComplete="family-name"
-                    className="mt-1 border border-gray-400"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
 
                 <div className="col-span-2 mr-10">
                   <label
@@ -204,6 +200,7 @@ const AddNewItemPopUp = ({ onClose }) => {
               <button
                 type="button"
                 className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                onClick={handleSave}
               >
                 Save
               </button>

@@ -5,6 +5,14 @@ import ItemTable from "./ItemTable";
 import NewVendorForm from "./NewVendorForm";
 
 const AddNewBill = () => {
+  const [items, setItems] = useState([
+    { itemName: "", quantity: 0, rate: 0, amount: 0, id : 0,ok: 0 }, // Initial row
+  ]);
+  const [subTotal, setSubTotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [adjustment, setAdjustment] = useState(0);
+  const [total, setTotal] = useState(0);
+
   const [vendorName, setVendorName] = useState(""); // vendor name state
   const [isVendorDropdownOpen, setIsVendorDropdownOpen] = useState(false); // Dropdown visibility state
   const [vendorOptions, setVendorOptions] = useState([]); // List of vendor options from database (assumed)
@@ -66,7 +74,7 @@ const AddNewBill = () => {
 
   const fetchPaymentNumber = async () => {
     // Replace with your database logic to fetch a new payment number
-    return "BILL-12345"; // Example placeholder
+    return "BILL-****"; // Example placeholder
   };
 
   // Function to handle Vendor dropdown toggle
@@ -206,7 +214,7 @@ const AddNewBill = () => {
           {/* Invoice # field */}
           <div className="flex items-center mb-4 ml-2">
             <label htmlFor="payment-number" className="w-1/3 text-gray-700">
-              Invoice #:
+              Bill #:
             </label>
             <div className="w-2/3">
               <input
@@ -279,7 +287,7 @@ const AddNewBill = () => {
         {/* Bills to pay of this Vendor available */}
 
         <div className="mt-5 ml-4 font-bold">Items Sold</div>
-          <ItemTable />
+          <ItemTable items={items} setItems={setItems} subTotal={subTotal} setSubTotal={setSubTotal} discount={discount} setDiscount={setDiscount} adjustment={adjustment} setAdjustment={setAdjustment} total={total} setTotal={setTotal}/>
         {/* save and cancel button footer */}
         <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white">
           <button

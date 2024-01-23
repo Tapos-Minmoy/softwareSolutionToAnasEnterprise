@@ -1,12 +1,12 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-const AddNewVendorPopUp = ({ onClose }) => {
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
+const AddNewItemPopUp = ({ onClose }) => {
+  const [name, setName] = React.useState("");
   const [companyName, setCompanyName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [phone, setPhone] = React.useState("");
-  const [document, setDocument] = React.useState(null);
+  // const [document, setDocument] = React.useState(null);
   const [vendorDisplayName, setVendorDisplayName] = useState("");
   const [isVendorDisplayNameUnique, setIsVendorDisplayNameUnique] =
     useState(true);
@@ -17,33 +17,40 @@ const AddNewVendorPopUp = ({ onClose }) => {
     setIsVendorDisplayNameUnique(true); // Reset uniqueness flag
     setVendorDisplayNameError("");
   };
+  const handleSave = async () => {
 
-  useEffect(() => {
-    // Check for uniqueness in the database (mocked here, replace with your actual DB logic)
-    const checkUniqueness = async () => {
-      if (vendorDisplayName) {
-        try {
-          const isUnique = await yourDatabaseFunctionToCheckUniqueness(
-            vendorDisplayName
-          );
-          setIsVendorDisplayNameUnique(isUnique);
-          if (!isUnique) {
-            setVendorDisplayNameError("Vendor Display Name is already taken.");
-          }
-        } catch (error) {
-          console.error("Error checking uniqueness:", error);
-          setVendorDisplayNameError(
-            "An error occurred while checking uniqueness."
-          );
-        }
-      } else {
-        setIsVendorDisplayNameUnique(true); // Reset if no value
-        setVendorDisplayNameError("");
+    // 2. Validate required fields
+    if (!name || !companyName || !vendorDisplayName || !phone) {
+      alert("Please fill in all required fields.");
+      return; // Stop execution if any field is empty
+    }
+    
+    try {
+      console.log("sabbir")
+
+      const data={
+        displayName:vendorDisplayName,
       }
-    };
+      const response = await axios.post(`http://localhost:8080/api/getVendorsByDisplayName`, 
+        data,
+      );
+      
 
-    checkUniqueness();
-  }, [vendorDisplayName]);
+    
+      if (response.status === 200) {
+        // Vendor Display Name already exists
+        alert("Vendor Display Name already exists. Please choose another.");
+        return;
+      } else alert("OK")
+    } catch (error) {
+      console.error("Error checking vendor uniqueness:", error);
+      alert("An unexpected3 error occurred. Please try again later.");
+    }    
+    
+
+  };
+
+
   return (
     <div className="fixed z-50 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -64,41 +71,24 @@ const AddNewVendorPopUp = ({ onClose }) => {
               Add New Vendor
             </h3>
 
-            <div className="mt-4">
+            <div className="col-span-2 mr-10">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="col-span-2 sm:col-span-1">
+                <div className="col-span-2 sm:col-span-2 mr-10">
                   <label
-                    htmlFor="firstName"
+                    htmlFor="name"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    First Name
+                    Name
                   </label>
                   <input
                     type="text"
                     id="firstName"
                     name="firstName"
                     autoComplete="given-name"
-                    className="mt-1 border border-gray-400"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-span-2 sm:col-span-1">
-                  <label
-                    htmlFor="lastName"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    autoComplete="family-name"
-                    className="mt-1 border border-gray-400"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    className="mt-1 border border-gray-400 w-full"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -114,7 +104,9 @@ const AddNewVendorPopUp = ({ onClose }) => {
                     id="vendorDisplayName"
                     name="vendorDisplayName"
                     autoComplete="username"
-                    className={`mt-1 w-full border border-gray-400 ${!isVendorDisplayNameUnique && "border border-gray-400"}`}
+                    className={`mt-1 w-full border border-gray-400 ${
+                      !isVendorDisplayNameUnique && "border border-gray-400"
+                    }`}
                     value={vendorDisplayName}
                     onChange={handleVendorDisplayNameChange}
                     required
@@ -182,6 +174,7 @@ const AddNewVendorPopUp = ({ onClose }) => {
               </div>
             </div>
 
+            {/*
             <div className="col-span-2">
               <label
                 htmlFor="document"
@@ -197,13 +190,14 @@ const AddNewVendorPopUp = ({ onClose }) => {
                 className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 onChange={(e) => setDocument(e.target.files[0])}
               />
-            </div>
+              </div>*/}
 
             {/* Close button */}
             <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white mr-10">
               <button
                 type="button"
                 className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                onClick={handleSave}
               >
                 Save
               </button>
@@ -222,4 +216,4 @@ const AddNewVendorPopUp = ({ onClose }) => {
   );
 };
 
-export default AddNewVendorPopUp;
+export default AddNewItemPopUp;
