@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddNewItemPopUp from "./AddNewItemPopUp";
 import axios from "axios";
 
-const ItemTable = ({ items, setItems ,subTotal , setSubTotal, discount ,setDiscount, adjustment , setAdjustment, total,setTotal}) => {
+const ItemTable = ({ items, setItems ,subTotal , setSubTotal, discount ,setDiscount, adjustment , setAdjustment, total,setTotal,paidAmount, setPaidAmount , dueAmount, setDueAmount}) => {
   /*
   const [items, setItems] = useState([
     { itemName: "", quantity: 0, rate: 0, amount: 0, ok: 0 }, // Initial row
@@ -29,9 +29,17 @@ const ItemTable = ({ items, setItems ,subTotal , setSubTotal, discount ,setDisco
     // });
   }, [neetToFetch]);
 
+  useEffect(()=>{
+    setDueAmount(Number(total-paidAmount) || 0)
+  },[paidAmount,total])
+
 
 
   // Functions
+  const handlePaidAmountChange = (paidAmt) =>{
+    paidAmount=Number(paidAmt) || 0;
+    setPaidAmount(paidAmount);
+  }
 
   const handleDiscountChange = (discount) =>{
     discount = Number(discount) || 0;
@@ -296,6 +304,7 @@ const ItemTable = ({ items, setItems ,subTotal , setSubTotal, discount ,setDisco
             />
           </td>
         </tr>
+        {/*
         <tr>
           <td colSpan="2"></td>
           <td>Adjustment:</td>
@@ -307,11 +316,28 @@ const ItemTable = ({ items, setItems ,subTotal , setSubTotal, discount ,setDisco
               className="w-full border border-gray-400 focus:outline-none"
             />
           </td>
-        </tr>
+        </tr>*/}
         <tr>
           <td colSpan="2"></td>
           <td>Total:</td>
           <td className="px-4 py-2">{total}</td>
+        </tr>
+        <tr>
+          <td colSpan="2"></td>
+          <td>Paid Amount:</td>
+          <td className="px-4 py-2">
+            <input
+              type="text"
+              value={paidAmount}
+              onChange={(e) => handlePaidAmountChange(e.target.value)}
+              className="w-full border border-gray-400 focus:outline-none"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="2"></td>
+          <td>Due Amount:</td>
+          <td className="px-4 py-2">{dueAmount}</td>
         </tr>
       </tfoot>
     </table>

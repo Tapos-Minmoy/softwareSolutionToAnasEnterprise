@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import ShowVendorDetails from "./ShowVendorDetails";
 import AddNewVendorPopUp from "./AddNewVendorPopUp"; // Import the new component
 import ItemTable from "./ItemTable";
-import NewVendorForm from "./NewVendorForm";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const AddNewBill = () => {
+
+
+const AddNewBill = ({selectedComponent, setSelectedComponent }) => {
+  const navigate = useNavigate();
+
   const [items, setItems] = useState([
-    { itemName: "", quantity: 0, rate: 0, amount: 0, id : 0,ok: 0 }, // Initial row
+    { itemName: "", quantity: 0, rate: 0, amount: 0, id: 0, ok: 0 }, // Initial row
   ]);
   const [subTotal, setSubTotal] = useState(0);
   const [discount, setDiscount] = useState(0);
@@ -14,11 +19,14 @@ const AddNewBill = () => {
   const [total, setTotal] = useState(0);
 
   const [vendorName, setVendorName] = useState(""); // vendor name state
+  const [needToFetchVendors, setNeedToFetchVendors] = useState(false);
   const [isVendorDropdownOpen, setIsVendorDropdownOpen] = useState(false); // Dropdown visibility state
   const [vendorOptions, setVendorOptions] = useState([]); // List of vendor options from database (assumed)
   const [paymentNumber, setPaymentNumber] = useState("");
   const [showVendorDetails, setShowVendorDetails] = useState(false);
   const [vendorDetails, setVendorDetails] = useState(null);
+  const [paidAmount, setPaidAmount] = useState(0);
+  const [dueAmount, setDueAmount] = useState(0);
 
   const [showAddVendorModal, setShowAddVendorModal] = useState(false);
   const handleAddVendorClick = () => {
@@ -39,7 +47,7 @@ const AddNewBill = () => {
   const [invoiceDate, setInvoiceDate] = useState("");
   const [dueDate, setDueDate] = useState("");
 
-  const [paymentMode, setPaymentMode] = useState("");
+  const [paymentMode, setPaymentMode] = useState("Cash");
   const paymentModes = [
     "Cash",
     "Bank Transfer",
@@ -50,10 +58,7 @@ const AddNewBill = () => {
   ]; // Define payment modes
 
   const [billData, setBillData] = useState([]);
-  const [totalAmountDue, setTotalAmountDue] = useState(0);
   const [totalPayment, setTotalPayment] = useState(0);
-
-
 
   const handlePaymentChange = (index, value) => {
     const updatedBills = [...billData];
@@ -63,6 +68,29 @@ const AddNewBill = () => {
     const updatedTotalPayment =
       totalPayment + (value - billData[index].payment);
     setTotalPayment(updatedTotalPayment);
+  };
+
+  useEffect(() => {
+    fetchAvailableVendors();
+    // .then((items) => setFetchedItems(items))
+    //.catch((error) => {
+    // console.error("Error fetching items:", error);
+    // Handle error, e.g., display an error message
+    // });
+  }, [needToFetchVendors]);
+  const fetchAvailableVendors = async () => {
+    // Replace with your actual function to fetch items from the database
+    try {
+      const vendors = await axios.get(
+        "http://localhost:8080/api/getAllVendors"
+      );
+      setVendorOptions(vendors.data);
+      return vendors;
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      // Handle error gracefully, e.g., display an error message
+      return [];
+    }
   };
 
   useEffect(() => {
@@ -80,17 +108,115 @@ const AddNewBill = () => {
   // Function to handle Vendor dropdown toggle
   const toggleVendorDropdown = () => {
     setIsVendorDropdownOpen(!isVendorDropdownOpen);
+    setNeedToFetchVendors(!needToFetchVendors);
   };
 
   // Function to handle Vendor selection
   const handleVendorSelect = (selectedVendor) => {
-    setVendorName(selectedVendor);
+    setVendorName(selectedVendor.VendorDisplayName);
     toggleVendorDropdown();
   };
 
   // Function to validate Vendor name
   const validateVendorName = () => {
     return vendorName.trim() !== "";
+  };
+
+  const addBillToItem =async (data) =>{
+    console.log(data);
+    try{
+      const response = await axios.post(
+        "http://localhost:8080/api/addItemToBill",
+        data
+      );
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  const addPaymentOK =async (data) =>{
+    console.log(data);
+    try{
+      const response = await axios.post(
+        "http://localhost:8080/api/addPayment",
+        data
+      );
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  const updataAccount = async(AccountingInfo,increment) => {
+    const data={
+      AccountName: AccountingInfo,
+      increment:increment,
+    }
+    try{ 
+      const response = await axios.post(
+      "http://localhost:8080/api/updateAccountingInfo",
+      data
+    )}catch(error){
+      console.log(error);
+    }
+  }
+  const updateAccountingInfo = async(asset,accountPayable,cash) => {
+    if(asset!==0) updataAccount("Asset",asset);
+    if(accountPayable!==0)  updataAccount("AccountPayable",accountPayable);
+    if(cash!==0) updataAccount("Cash",cash);
+
+  }
+  const handleSave = async () => {
+    try {
+      const data = {
+        VendorDisplayName: vendorName,
+        SubTotal: subTotal,
+        DueAmount: dueAmount,
+        Discount: discount,
+        Total: total,
+        DueDate: dueDate,
+        Date: invoiceDate,
+        Status:
+          dueAmount === 0
+            ? "paid"
+            : dueAmount < total
+            ? "partiallyPaid"
+            : "Open",
+      };
+      const response = await axios.post(
+        "http://localhost:8080/api/addBill",
+        data
+      );
+      console.log(response.data.id);
+      // ... rest of your success and error handling logic ...
+      {
+        items.map((item, index) => {
+          const data = {
+            BillID: response.data.id,
+            ItemID: item.id,
+            Quantity: item.quantity,
+            Rate: item.rate,
+          };
+          addBillToItem(data);
+        })
+
+        const data = {
+            Date:invoiceDate,
+            BillID:response.data.id,
+            VendorDisplayName:vendorName,
+            Mode: paymentMode,
+            Amount: paidAmount,
+        }
+        
+        addPaymentOK(data);
+        updateAccountingInfo(total,dueAmount,-paidAmount);
+        setSelectedComponent("Bills");
+        navigate("/home");
+
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An unexpected error occurred. Please try again later.");
+    }
   };
 
   // Render component
@@ -144,27 +270,13 @@ const AddNewBill = () => {
                 <ul className="py-2 max-h-60 overflow-y-auto">
                   {/* ... */}
 
-                  <li
-                    className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300"
-                    onClick={() => handleVendorSelect("Abu Taher")}
-                  >
-                    Abu Taher
-                  </li>
-
-                  <li
-                    className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300"
-                    onClick={() => handleVendorSelect("Rana Mia")}
-                  >
-                    Rana Mia
-                  </li>
-
                   {vendorOptions.map((vendor) => (
                     <li
                       key={vendor.id}
                       className="cursor-pointer bg-blue-200 hover:bg-blue-400 mb-1 border border-gray-300" // Add border here
-                      onClick={() => handleVendorSelect(vendor.name)}
+                      onClick={() => handleVendorSelect(vendor)}
                     >
-                      {vendor.name}
+                      {vendor.VendorDisplayName}
                     </li>
                   ))}
                 </ul>
@@ -287,12 +399,28 @@ const AddNewBill = () => {
         {/* Bills to pay of this Vendor available */}
 
         <div className="mt-5 ml-4 font-bold">Items Sold</div>
-          <ItemTable items={items} setItems={setItems} subTotal={subTotal} setSubTotal={setSubTotal} discount={discount} setDiscount={setDiscount} adjustment={adjustment} setAdjustment={setAdjustment} total={total} setTotal={setTotal}/>
+        <ItemTable
+          items={items}
+          setItems={setItems}
+          subTotal={subTotal}
+          setSubTotal={setSubTotal}
+          discount={discount}
+          setDiscount={setDiscount}
+          adjustment={adjustment}
+          setAdjustment={setAdjustment}
+          total={total}
+          setTotal={setTotal}
+          paidAmount={paidAmount}
+          setPaidAmount={setPaidAmount}
+          dueAmount={dueAmount}
+          setDueAmount={setDueAmount}
+        />
         {/* save and cancel button footer */}
         <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white">
           <button
             type="button"
             className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            onClick={handleSave}
           >
             Save
           </button>

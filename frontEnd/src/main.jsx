@@ -11,6 +11,7 @@ import SignUp from './components/SignUp/SignUp';
 import Login from './components/Login/Login';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import Home from './components/Home/Home';
+import AddNewBill from './components/Purchase/AddNewBill';
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import UnProtectedRoute from "./components/UnProtectedRoute/UnProtectedRoute";
@@ -48,7 +49,8 @@ const router = createBrowserRouter([
       element: <ProtectedRoute>
              <Home />
           </ProtectedRoute>,
-    }
+    },
+
    
    ]
 },

@@ -35,19 +35,35 @@ const AddNewItemPopUp = ({ onClose }) => {
         data,
       );
       
-
+      console.log(response);
     
-      if (response.status === 200) {
+      if (response.data !== 'Vendor not found') {
         // Vendor Display Name already exists
         alert("Vendor Display Name already exists. Please choose another.");
         return;
-      } else alert("OK")
+      } 
     } catch (error) {
       console.error("Error checking vendor uniqueness:", error);
       alert("An unexpected3 error occurred. Please try again later.");
     }    
     
-
+    try {
+      const data = {
+        Name: name,
+        CompanyName: companyName,
+        VendorDisplayName: vendorDisplayName,
+        EmailAddress: email,
+        PhoneNumber: phone,
+      };
+      const response = await axios.post('http://localhost:8080/api/addVendor', data);
+  
+      // ... rest of your success and error handling logic ...
+  
+    } catch (error) {
+      console.error(error);
+      alert('An unexpected error occurred. Please try again later.');
+    }
+    onClose();
   };
 
 

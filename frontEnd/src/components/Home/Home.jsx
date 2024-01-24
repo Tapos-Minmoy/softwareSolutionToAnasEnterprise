@@ -193,7 +193,12 @@ const Home = () => {
             />
           )}
           {selectedComponent === "AddNewPayment" && <AddNewPayment />}
-          {selectedComponent === "AddNewBill" && <AddNewBill />}
+          {selectedComponent === "AddNewBill" && (
+            <AddNewBill
+              selectedComponent={selectedComponent}
+              setSelectedComponent={setSelectedComponent}
+            />
+          )}
 
           {/*Sales and related */}
 
