@@ -98,7 +98,6 @@ const Home = () => {
                 <a className="hover:text-orange-500">Purchase Receives</a>
               </li> 
               */}
-              
 
               <li onClick={() => handleComponentClick("Bills")}>
                 <a className="hover:text-orange-500">Bills</a>
@@ -158,7 +157,6 @@ const Home = () => {
                   <a className="hover:text-orange-500">Sales Return</a>
                 </li>
               */}
-
               </ul>
             )}
           </li>
@@ -247,7 +245,12 @@ const Home = () => {
           {selectedComponent === "AddNewPaymentRecieved" && (
             <AddNewPaymentRecieved />
           )}
-          {selectedComponent === "AddNewInvoice" && <AddNewInvoice />}
+          {selectedComponent === "AddNewInvoice" && (
+            <AddNewInvoice
+              selectedComponent={selectedComponent}
+              setSelectedComponent={setSelectedComponent}
+            />
+          )}
           {selectedComponent === "AddNewCustomer" && <AddNewCusomer />}
         </div>
       )}
