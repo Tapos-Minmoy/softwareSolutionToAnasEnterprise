@@ -5,6 +5,8 @@ const billController = require('../controllers/billController.js')
 const  billToItems  = require('../controllers/billToItemController.js')
 const paymentMadeController = require('../controllers/paymentMadeController.js')
 const addAccountingInfoController = require('../controllers/AccountingInfoController.js')
+
+const  customerController=require('../controllers/customerController.js')
 const { Router } = require('express')
 
 // router
@@ -44,5 +46,15 @@ router.post('/getInfoByAccountName',addAccountingInfoController.getInfoByAccount
 
 
 // get product Reviews
+
+//Customer Model
+
+router.post('/addCustomer',customerController.addCustomer)
+router.post('/getCustomersByDisplayName',customerController.getCustomersByDisplayName)
+router.get('/getAllCustomers',customerController.getAllCustomers) 
+
+
+
+router.post
 
 module.exports = router
