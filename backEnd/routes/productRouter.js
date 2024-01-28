@@ -27,9 +27,9 @@ router.get('/getAllVendors',vendorController.getAllVendors)
 router.post('/addVendor',vendorController.addVendor)
 router.post('/getVendorsByDisplayName',vendorController.getVendorsByDisplayName)
 
-// Review Url and Controller
 //BillToItem
 router.post('/addItemToBill',billToItems.addItemToBill)
+
 //Bill Model
 router.post('/addBill',billController.addBill)
 router.get('/getAllBills',billController.getAllBills)
@@ -42,7 +42,8 @@ router.get('/getAllPayments',paymentMadeController.getAllPayments)
 
 router.post('/addAccountingInfo',addAccountingInfoController.addAccountingInfo)
 router.post('/updateAccountingInfo',addAccountingInfoController.updateAccountingInfo)
-router.get('/getAllAccountingInfo',addAccountingInfoController.getAllAccountingInfo)
+router.post('/getInfoByAccountName',addAccountingInfoController.getInfoByAccountName)
+
 
 // get product Reviews
 

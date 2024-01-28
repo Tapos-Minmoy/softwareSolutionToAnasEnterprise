@@ -1,0 +1,13 @@
+.Circle {
+    /* Adjust values for desired circle size and spacing */
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-color: #d3af94;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+  }
+  
