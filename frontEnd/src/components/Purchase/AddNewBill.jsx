@@ -135,7 +135,7 @@ const AddNewBill = ({selectedComponent, setSelectedComponent }) => {
   }
 
   const addPaymentOK =async (data) =>{
-    console.log(data);
+    if(data.paidAmount===0) return;
     try{
       const response = await axios.post(
         "http://localhost:8080/api/addPayment",
@@ -159,6 +159,20 @@ const AddNewBill = ({selectedComponent, setSelectedComponent }) => {
       console.log(error);
     }
   }
+
+  const updatItem=async(id,quantity) => {
+    const data={
+      ID : id,
+      quantity:quantity,
+    }
+    try{ 
+      const response = await axios.post(
+      "http://localhost:8080/api/updateItemQuantity",
+      data
+    )}catch(error){
+      console.log(error);
+    }
+  }
   const updateAccountingInfo = async(asset,accountPayable,cash) => {
     if(asset!==0) updataAccount("Asset",asset);
     if(accountPayable!==0)  updataAccount("AccountPayable",accountPayable);
@@ -166,6 +180,20 @@ const AddNewBill = ({selectedComponent, setSelectedComponent }) => {
 
   }
   const handleSave = async () => {
+    if(!vendorName){
+      alert("Select a vendor name form the available list....");
+      return;
+    }
+    if(!invoiceDate){
+      alert("Enter bill date");
+      return;
+    }
+
+    if(dueAmount>0 && !dueDate){
+      alert("Select a due date");
+      return;
+    }
+
     try {
       const data = {
         VendorDisplayName: vendorName,
@@ -196,6 +224,7 @@ const AddNewBill = ({selectedComponent, setSelectedComponent }) => {
             Quantity: item.quantity,
             Rate: item.rate,
           };
+          updatItem(item.id,item.quantity);
           addBillToItem(data);
         })
 

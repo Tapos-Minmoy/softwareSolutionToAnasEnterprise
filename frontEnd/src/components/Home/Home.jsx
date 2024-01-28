@@ -87,6 +87,7 @@ const Home = () => {
               <li onClick={() => handleComponentClick("Vendors")}>
                 <a className="hover:text-orange-500">Vendors</a>
               </li>
+              {/*
               <li onClick={() => handleComponentClick("Expenses")}>
                 <a className="hover:text-orange-500">Expenses</a>
               </li>
@@ -95,7 +96,10 @@ const Home = () => {
               </li>
               <li onClick={() => handleComponentClick("PurchaseReceives")}>
                 <a className="hover:text-orange-500">Purchase Receives</a>
-              </li>
+              </li> 
+              */}
+              
+
               <li onClick={() => handleComponentClick("Bills")}>
                 <a className="hover:text-orange-500">Bills</a>
               </li>
@@ -149,9 +153,12 @@ const Home = () => {
                 <li onClick={() => handleComponentClick("PaymentReceived")}>
                   <a className="hover:text-orange-500">Payment Received</a>
                 </li>
+                {/*
                 <li onClick={() => handleComponentClick("SalesReturns")}>
                   <a className="hover:text-orange-500">Sales Return</a>
                 </li>
+              */}
+
               </ul>
             )}
           </li>
@@ -163,9 +170,13 @@ const Home = () => {
           <li>
             <a className="hover:text-orange-500">Receivable</a>
           </li>
+
+          {/*
           <li>
             <a className="hover:text-orange-500">Reports</a>
-          </li>
+          </li> 
+          
+          */}
         </ul>
       </div>
       {selectedComponent && (

@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const PaymentsMade = ({ selectedComponent, setSelectedComponent }) => {
   const handleComponentClick = (componentName) => {
@@ -7,9 +8,6 @@ const PaymentsMade = ({ selectedComponent, setSelectedComponent }) => {
     window.location.hash = componentName;
   };
 
-  {
-    /* fetching early payment information */
-  }
   const [paymentData, setPaymentData] = useState([]);
 
   useEffect(() => {
@@ -18,10 +16,18 @@ const PaymentsMade = ({ selectedComponent, setSelectedComponent }) => {
   }, []);
 
   const fetchPaymentHistory = async () => {
-    // Replace with your database fetching logic
-    const fetchedData = await fetchPaymentsFromDatabase();
-    setPaymentData(fetchedData);
+    // Replace with your actual function to fetch items from the database
+    try {
+      const paymentsmade = await axios.get("http://localhost:8080/api/getAllPayments");
+      setPaymentData(paymentsmade.data);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      // Handle error gracefully, e.g., display an error message
+    }
   };
+
+
+
 
   return (
     <div>
@@ -44,9 +50,8 @@ const PaymentsMade = ({ selectedComponent, setSelectedComponent }) => {
             <tr>
               <th>#</th>
               <th>Date</th>
-              <th>Payment #</th>
+              <th>Bill #</th>
               <th>Vendor Name</th>
-              <th>Bill#</th>
               <th>Mode</th>
               <th>Amount</th>
             </tr>
@@ -55,12 +60,11 @@ const PaymentsMade = ({ selectedComponent, setSelectedComponent }) => {
             {paymentData.map((payment, index) => (
               <tr key={payment.id}>
                 <td>{index + 1}</td>
-                <td>{payment.date}</td>
-                <td>{payment.paymentNumber}</td>
-                <td>{payment.vendorName}</td>
-                <td>{payment.billNumber}</td>
-                <td>{payment.mode}</td>
-                <td>{payment.amount}</td>
+                <td>{payment.Date}</td>
+                <td>{payment.BillID}</td>
+                <td>{payment.VendorDisplayName}</td>
+                <td>{payment.Mode}</td>
+                <td>{payment.Amount}</td>
               </tr>
             ))}
           </tbody>
