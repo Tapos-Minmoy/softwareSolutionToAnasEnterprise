@@ -8,26 +8,26 @@ const Items = ({ selectedComponent, setSelectedComponent }) => {
     setSelectedComponent(componentName);
     window.location.hash = componentName;
   };
-  const [fetchedVendors, setFetchedVendors] = useState([]);
-  const [needToFetch, setNeedToFetch]=useState(0);
+  const [fetchedItems, setFetchedItems] = useState([]);
+  const [needToFetch, setNeedToFetch] = useState(0);
   const [showAddVendorModal, setShowAddVendorModal] = useState(false);
 
   useEffect(() => {
-    fetchAvailableVendors();
+    fetchAvailableItems();
     // .then((items) => setFetchedItems(items))
     //.catch((error) => {
     // console.error("Error fetching items:", error);
     // Handle error, e.g., display an error message
     // });
-  }, [needToFetch]);
-  const fetchAvailableVendors = async () => {
+  }, []);
+  const fetchAvailableItems = async () => {
     // Replace with your actual function to fetch items from the database
     try {
-      const vendors = await axios.get(
-        "http://localhost:8080/api/getAllVendors"
+      const  items = await axios.get(
+        "http://localhost:8080/api/getAllItems"
       );
-      setFetchedVendors(vendors.data);
-      return vendors;
+      setFetchedItems(items.data);
+      return items;
     } catch (error) {
       console.error("Error fetching items:", error);
       // Handle error gracefully, e.g., display an error message
@@ -35,11 +35,12 @@ const Items = ({ selectedComponent, setSelectedComponent }) => {
     }
   };
 
+
   return (
     <div className="overflow-y-auto max-h-screen">
       <div className="navbar bg-base-100 ">
         <div className="navbar-start">
-          <a className="btn btn-ghost text-xl">All Vendors</a>
+          <a className="btn btn-ghost text-xl">All Items</a>
         </div>
         <div className="navbar-end" onClick={() => setShowAddVendorModal(true)}>
           <a className="btn">+NEW</a>
@@ -65,20 +66,18 @@ const Items = ({ selectedComponent, setSelectedComponent }) => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Vendor Display Name</th>
-              <th>COMPANY NAME</th>
-              <th>EMAIL</th>
-              <th> PHONE</th>
+              <th>Catagory</th>
+              <th>Unit</th>
+              <th>Quantity</th>
             </tr>
           </thead>
           <tbody>
-            {fetchedVendors.map((vendor) => (
+            {fetchedItems.map((Items) => (
               <tr>
-                <td>{vendor.Name}</td>
-                <td>{vendor.VendorDisplayName}</td>
-                <td>{vendor.CompanyName}</td>
-                <td>{vendor.EmailAddress}</td>
-                <td>{vendor.PhoneNumber}</td>
+                <td>{Items.ItemName}</td>
+                <td>{Items.ItemCategory}</td>
+                <td>{Items.Unit}</td>
+                <td>{Items.Quantity}</td>
               </tr>
             ))}
           </tbody>
