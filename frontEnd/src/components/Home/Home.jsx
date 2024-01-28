@@ -16,12 +16,13 @@ import Invoices from "../Sales/Invoices";
 import Sales from "../Sales/Sales";
 import SalesReturns from "../Sales/SalesReturns";
 import PaymentReceived from "../Sales/PaymentReceived";
+import Dashboard from "../Dashboard/Dashboard";
 
 const Home = () => {
   const [isPurchaseDrawerOpen, setIsPurchaseDrawerOpen] = useState(false);
   const [isSalesDrawerOpen, setIsSalesDrawerOpen] = useState(false);
 
-  const [selectedComponent, setSelectedComponent] = useState(null);
+  const [selectedComponent, setSelectedComponent] = useState("Dashboard");
 
   useEffect(() => {
     const hash = window.location.hash.slice(1); // Remove the leading #
@@ -39,7 +40,7 @@ const Home = () => {
     <div className="flex  flex-column pt-16">
       <div className="w-1/6 h-screen ">
         <ul className="text-white font-semibold text-xl bg-black menu menu-sm h-screen z-[1] p-2 shadow w-52 hidden md:block">
-          <li>
+          <li onClick={() => handleComponentClick("Dashboard")}>
             <a className="hover:text-orange-500">Dashboard</a>
           </li>
 
@@ -185,6 +186,7 @@ const Home = () => {
               setSelectedComponent={setSelectedComponent}
             />
           )}
+          {selectedComponent === "Dashboard" && <Dashboard />}
           {selectedComponent === "Expenses" && <Expenses />}
           {selectedComponent === "PurchaseOrder" && <PurchaseOrder />}
           {selectedComponent === "PurchaseReceives" && <PurchaseReceives />}

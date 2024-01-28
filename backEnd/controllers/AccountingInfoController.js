@@ -86,10 +86,42 @@ const deleteAccountingInfo = async (req, res) => {
   }
 };
 
+const getInfoByAccountName = async (req, res) => {
+  try {
+    const accountName = req.body.AccountName; // Get vendor display name from request parameters
+
+    console.log(accountName);
+
+    if (!accountName) {
+      // Handle missing display name error
+      return res.status(400).send('Missing vendor display name.');
+    }
+
+    const info = await AccountingInfo.findOne({
+      where: { AccountName: accountName },
+      attributes: ['id', 'Value'],
+    });
+
+    console.log(info);
+
+   // if (!info) {
+   //   res.status(200).send('Account Info not found');
+  //    return;
+   // } else {
+      res.status(200).send(info.dataValues);
+     // return;
+   // }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching vendors');
+  }
+};
+
 module.exports = {
   addAccountingInfo,
   getAllAccountingInfo,
   getOneAccountingInfo,
   updateAccountingInfo,
   deleteAccountingInfo,
+  getInfoByAccountName,
 };
