@@ -40,6 +40,7 @@ db.billToItems=require('./BillToItemModel.js')(sequelize,DataTypes)
 db.paymentMades=require('./PaymentMadeModel.js')(sequelize,DataTypes)
 db.accountingInfos=require('./AccountingInfoModel.js')(sequelize,DataTypes)
 db.customers=require('./customerModel.js')(sequelize,DataTypes)
+db.invoices=require('./InvoiceModel.js')(sequelize,DataTypes)
 
 db.sequelize.sync({ force: false })
 .then(() => {

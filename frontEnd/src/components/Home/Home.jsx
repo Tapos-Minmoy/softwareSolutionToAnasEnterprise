@@ -18,6 +18,8 @@ import SalesReturns from "../Sales/SalesReturns";
 import PaymentReceived from "../Sales/PaymentReceived";
 import Dashboard from "../Dashboard/Dashboard";
 import Items from "../Items/Items";
+import Payable from "../Payable/Payable";
+import Recievable from "../Recievable/Recievable";
 
 const Home = () => {
   const [isPurchaseDrawerOpen, setIsPurchaseDrawerOpen] = useState(false);
@@ -164,13 +166,12 @@ const Home = () => {
           </li>
 
           <li></li>
-          <li>
+          <li onClick={() => handleComponentClick("Payable")}>
             <a className="hover:text-orange-500">Payable</a>
           </li>
-          <li>
-            <a className="hover:text-orange-500">Receivable</a>
+          <li onClick={() => handleComponentClick("Recievable")}>
+            <a className="hover:text-orange-500">Recievable</a>
           </li>
-
           {/*
           <li>
             <a className="hover:text-orange-500">Reports</a>
@@ -187,12 +188,25 @@ const Home = () => {
               setSelectedComponent={setSelectedComponent}
             />
           )}
+          {selectedComponent === "Payable" && (
+            <Payable
+              selectedComponent={selectedComponent}
+              setSelectedComponent={setSelectedComponent}
+            />
+          )}
+          {selectedComponent === "Recievable" && (
+            <Recievable
+              selectedComponent={selectedComponent}
+              setSelectedComponent={setSelectedComponent}
+            />
+          )}
           {selectedComponent === "Items" && (
             <Items
               selectedComponent={selectedComponent}
               setSelectedComponent={setSelectedComponent}
             />
-          )}          {selectedComponent === "Dashboard" && <Dashboard />}
+          )}{" "}
+          {selectedComponent === "Dashboard" && <Dashboard />}
           {selectedComponent === "Expenses" && <Expenses />}
           {selectedComponent === "PurchaseOrder" && <PurchaseOrder />}
           {selectedComponent === "PurchaseReceives" && <PurchaseReceives />}
@@ -216,9 +230,7 @@ const Home = () => {
               setSelectedComponent={setSelectedComponent}
             />
           )}
-
           {/*Sales and related */}
-
           {selectedComponent === "Sales" && (
             <Sales
               selectedComponent={selectedComponent}
@@ -237,7 +249,6 @@ const Home = () => {
               setSelectedComponent={setSelectedComponent}
             />
           )}
-
           {selectedComponent === "SalesReturns" && (
             <SalesReturns
               selectedComponent={selectedComponent}

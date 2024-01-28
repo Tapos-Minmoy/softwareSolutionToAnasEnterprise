@@ -5,6 +5,7 @@ const billController = require('../controllers/billController.js')
 const  billToItems  = require('../controllers/billToItemController.js')
 const paymentMadeController = require('../controllers/paymentMadeController.js')
 const addAccountingInfoController = require('../controllers/AccountingInfoController.js')
+const invoiceController =require('../controllers/InvoiceController.js')
 
 const  customerController=require('../controllers/customerController.js')
 const { Router } = require('express')
@@ -43,6 +44,11 @@ router.get('/getAllPayments',paymentMadeController.getAllPayments)
 router.post('/addAccountingInfo',addAccountingInfoController.addAccountingInfo)
 router.post('/updateAccountingInfo',addAccountingInfoController.updateAccountingInfo)
 router.post('/getInfoByAccountName',addAccountingInfoController.getInfoByAccountName)
+
+
+//invoice mode
+router.post('/addInvoice',invoiceController.addInvoice)
+
 
 
 // get product Reviews

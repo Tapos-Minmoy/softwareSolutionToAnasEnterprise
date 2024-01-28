@@ -211,7 +211,7 @@ const AddNewInvoice = ({selectedComponent, setSelectedComponent }) => {
             : "Open",
       };
       const response = await axios.post(
-        "http://localhost:8080/api/addBill",
+        "http://localhost:8080/api/addInvoice",
         data
       );
       console.log(response.data.id);
@@ -224,7 +224,7 @@ const AddNewInvoice = ({selectedComponent, setSelectedComponent }) => {
             Quantity: item.quantity,
             Rate: item.rate,
           };
-          updatItem(item.id,item.quantity);
+          updatItem(item.id,-item.quantity);
           addBillToItem(data);
         })
 
