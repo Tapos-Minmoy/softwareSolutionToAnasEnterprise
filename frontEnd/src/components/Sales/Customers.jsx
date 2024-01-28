@@ -1,11 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Customer = ({ selectedComponent, setSelectedComponent }) => {
   const handleComponentClick = (componentName) => {
     setSelectedComponent(componentName);
     window.location.hash = componentName;
   };
+
 
   {
     /* fetch info before if needed*/
@@ -18,9 +20,16 @@ const Customer = ({ selectedComponent, setSelectedComponent }) => {
   }, []);
 
   const fetchCustomerInfo = async () => {
-    // Replace with your database fetching logic
-    const fetchedData = await fetchCustomersFromDatabase();
-    setCustomerData(fetchedData);
+    console.log("OKkkkk")
+    try {
+      const customers = await axios.get("http://localhost:8080/api/getAllCustomers");
+      setCustomerData(customers.data);
+      return  customers 
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      // Handle error gracefully, e.g., display an error message
+      return [];
+    }
   };
 
   return (
@@ -41,18 +50,19 @@ const Customer = ({ selectedComponent, setSelectedComponent }) => {
           <tr>
             <th>NAME</th>
             <th>EMAIL</th>
-            <th>CUSTOMER NAME</th>
+            <th>CUSTOMER DISPLAY NAME</th>
             <th>WORK PHONE</th>
-            <th>Balance DUE</th>
+            <th>REFERENCE</th>
           </tr>
         </thead>
         <tbody>
           {customerData.map((Customer, index) => (
             <tr key={Customer.id}>
-              <td>{Customer.date}</td>
-              <td>{Customer.email}</td>
-              <td>{Customer.workPhone}</td>
-              <td>{Customer.balanceDue}</td>
+              <td>{Customer.CustomerName}</td>
+              <td>{Customer.EmailAddress}</td>
+              <td>{Customer.CustomerDisplayName}</td>
+              <td>{Customer.PhoneNumber}</td>
+              <td>{Customer.Reference}</td>
             </tr>
           ))}
         </tbody>

@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 const AddNewCustomerPopUp = ({ onClose }) => {
   const [name, setName] = React.useState("");
   const [reference, setReference] = React.useState("");
-  const [companyName,setCompanyName] =React.useState("");
   const [email, setEmail] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [address,setAddress]=React.useState("");
@@ -21,10 +20,15 @@ const AddNewCustomerPopUp = ({ onClose }) => {
   };
   const handleSave = async () => {
 
+
+
     // 2. Validate required fields
-    if (!name || !companyName || !CustomerDisplayName || !phone) {
+    if (!name || !CustomerDisplayName || !phone) {
       alert("Please fill in all required fields.");
       return; // Stop execution if any field is empty
+
+
+       
     }
     
     try {
@@ -51,13 +55,15 @@ const AddNewCustomerPopUp = ({ onClose }) => {
     
     try {
       const data = {
-        Name: name,
-        CompanyName: companyName,
+        CustomerName: name,
         CustomerDisplayName: CustomerDisplayName,
         EmailAddress: email,
+        Address : address,
+        Reference: reference,
         PhoneNumber: phone,
       };
       const response = await axios.post('http://localhost:8080/api/addCustomer', data);
+
   
       // ... rest of your success and error handling logic ...
   
@@ -167,8 +173,8 @@ const AddNewCustomerPopUp = ({ onClose }) => {
                     name="Address"
                     autoComplete="organization"
                     className="mt-1 w-full border border-gray-400"
-                    value={reference}
-                    onChange={(e) => setReference(e.target.value)}
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
                 </div>
 
