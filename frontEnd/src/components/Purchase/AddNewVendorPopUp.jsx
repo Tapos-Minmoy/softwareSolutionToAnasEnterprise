@@ -87,9 +87,9 @@ const AddNewItemPopUp = ({ onClose }) => {
               Add New Vendor
             </h3>
 
-            <div className="col-span-2 mr-10">
+            <div className="col-span-2 mr-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="col-span-2 sm:col-span-2 mr-10">
+                <div className="col-span-2 mr-5">
                   <label
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700"
@@ -108,7 +108,7 @@ const AddNewItemPopUp = ({ onClose }) => {
                   />
                 </div>
 
-                <div className="col-span-2 mr-10">
+                <div className="col-span-2 mr-5">
                   <label
                     htmlFor="vendorDisplayName"
                     className="block text-sm font-medium text-red-400"
@@ -134,7 +134,7 @@ const AddNewItemPopUp = ({ onClose }) => {
                   )}
                 </div>
 
-                <div className="col-span-2 mr-10">
+                <div className="col-span-2 mr-5">
                   <label
                     htmlFor="companyName"
                     className="block text-sm font-medium text-gray-700"
@@ -152,7 +152,7 @@ const AddNewItemPopUp = ({ onClose }) => {
                   />
                 </div>
 
-                <div className="col-span-2 mr-10">
+                <div className="col-span-2 mr-5">
                   <label
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700"
@@ -170,7 +170,7 @@ const AddNewItemPopUp = ({ onClose }) => {
                   />
                 </div>
 
-                <div className="col-span-2 mr-10">
+                <div className="col-span-2 mr-5">
                   <label
                     htmlFor="phone"
                     className="block text-sm font-medium text-gray-700"

@@ -17,6 +17,7 @@ import Sales from "../Sales/Sales";
 import SalesReturns from "../Sales/SalesReturns";
 import PaymentReceived from "../Sales/PaymentReceived";
 import Dashboard from "../Dashboard/Dashboard";
+import Items from "../Items/Items";
 
 const Home = () => {
   const [isPurchaseDrawerOpen, setIsPurchaseDrawerOpen] = useState(false);
@@ -45,7 +46,7 @@ const Home = () => {
           </li>
 
           <li></li>
-          <li>
+          <li onClick={() => handleComponentClick("Items")}>
             <a className="hover:text-orange-500">Items</a>
           </li>
           <li></li>
@@ -186,7 +187,12 @@ const Home = () => {
               setSelectedComponent={setSelectedComponent}
             />
           )}
-          {selectedComponent === "Dashboard" && <Dashboard />}
+          {selectedComponent === "Items" && (
+            <Items
+              selectedComponent={selectedComponent}
+              setSelectedComponent={setSelectedComponent}
+            />
+          )}          {selectedComponent === "Dashboard" && <Dashboard />}
           {selectedComponent === "Expenses" && <Expenses />}
           {selectedComponent === "PurchaseOrder" && <PurchaseOrder />}
           {selectedComponent === "PurchaseReceives" && <PurchaseReceives />}
