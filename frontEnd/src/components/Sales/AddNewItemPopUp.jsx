@@ -2,61 +2,48 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 const AddNewItemPopUp = ({ onClose }) => {
-  const [name, setName] = React.useState("");
-  const [companyName, setCompanyName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [phone, setPhone] = React.useState("");
- // const [document, setDocument] = React.useState(null);
-  const [vendorDisplayName, setVendorDisplayName] = useState("");
-  const [isVendorDisplayNameUnique, setIsVendorDisplayNameUnique] = useState(true);
-  const [vendorDisplayNameError, setVendorDisplayNameError] = useState("");
+  const [ItemName, setItemName] = React.useState("");
+  const [ItemCategory, setItemCategory] = React.useState("");
+  const [quantity, setQuantity] = React.useState(0);
 
-  const handleVendorDisplayNameChange = (e) => {
-    setVendorDisplayName(e.target.value);
-    setIsVendorDisplayNameUnique(true); // Reset uniqueness flag
-    setVendorDisplayNameError("");
-  };
+  // const [document, setDocument] = React.useState(null);
+  const [unit, setUnit] = useState("pcs");
+  const units = [
+    "pcs",
+    "kg",
+    "box",
+    "Other",
+  ]; // Define payment modes
 
-  const handleSave = async () =>{
-    const data = {
-      Name: name,
-      CompanyName : companyName,
-      VendorDisplayName : vendorDisplayName,
-      EmailAddress: email,
-      PhoneNumber : phone,
+  const handleSave = async () => {
+
+    // 2. Validate required fields
+    if (!ItemCategory || !ItemName) {
+      alert("Please fill in all required fields.");
+      return; // Stop execution if any field is empty
+
     }
 
-    console.log(data);
+    try {
+      const data = {
+        ItemName: ItemName,
+        ItemCategory: ItemCategory,
+        Unit: unit,
+        Quantity: quantity
+      };
+      const response = await axios.post('http://localhost:8080/api/addItem', data);
 
-    await axios.post('http://localhost:8080/api/addVendor',data)
-  }
+      console.log(unit);
+      // ... rest of your success and error handling logic ...
 
-  useEffect(() => {
-    // Check for uniqueness in the database (mocked here, replace with your actual DB logic)
-    const checkUniqueness = async () => {
-      if (vendorDisplayName) {
-        try {
-          const isUnique = await yourDatabaseFunctionToCheckUniqueness(
-            vendorDisplayName
-          );
-          setIsVendorDisplayNameUnique(isUnique);
-          if (!isUnique) {
-            setVendorDisplayNameError("Vendor Display Name is already taken.");
-          }
-        } catch (error) {
-          console.error("Error checking uniqueness:", error);
-          setVendorDisplayNameError(
-            "An error occurred while checking uniqueness."
-          );
-        }
-      } else {
-        setIsVendorDisplayNameUnique(true); // Reset if no value
-        setVendorDisplayNameError("");
-      }
-    };
+    } catch (error) {
+      console.error(error);
+      alert('An unexpected error occurred. Please try again later.');
+    }
+    onClose();
+  };
 
-    checkUniqueness();
-  }, [vendorDisplayName]);
+
   return (
     <div className="fixed z-50 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -77,107 +64,73 @@ const AddNewItemPopUp = ({ onClose }) => {
               Add New Item
             </h3>
 
-            <div className="mt-4">
+            <div className="col-span-2 mr-10">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="col-span-2 sm:col-span-1">
+                <div className="col-span-2 sm:col-span-2">
                   <label
-                    htmlFor="name"
+                    htmlFor="ItemName"
                     className="block text-sm font-medium text-gray-700"
                   >
-                   Name
+                    Item Name
                   </label>
                   <input
                     type="text"
-                    id="firstName"
-                    name="firstName"
+                    id="ItemName"
+                    name="ItemName"
                     autoComplete="given-name"
-                    className="mt-1 border border-gray-400"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-
-
-                <div className="col-span-2 mr-10">
-                  <label
-                    htmlFor="vendorDisplayName"
-                    className="block text-sm font-medium text-red-400"
-                  >
-                    Vendor Display Name*
-                  </label>
-                  <input
-                    type="text"
-                    id="vendorDisplayName"
-                    name="vendorDisplayName"
-                    autoComplete="username"
-                    className={`mt-1 w-full border border-gray-400 ${!isVendorDisplayNameUnique && "border border-gray-400"}`}
-                    value={vendorDisplayName}
-                    onChange={handleVendorDisplayNameChange}
+                    className="mt-1 border border-gray-400 w-full"
+                    value={ItemName}
+                    onChange={(e) => setItemName(e.target.value)}
                     required
                   />
-                  {vendorDisplayNameError && (
-                    <p className="mt-2 text-sm text-red-600">
-                      {vendorDisplayNameError}
-                    </p>
-                  )}
                 </div>
 
-                <div className="col-span-2 mr-10">
+                <div className="col-span-2 sm:col-span-2">
                   <label
-                    htmlFor="companyName"
+                    htmlFor="ItemCategory"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Company Name
+                    Item  Category
                   </label>
                   <input
                     type="text"
-                    id="companyName"
-                    name="companyName"
-                    autoComplete="organization"
-                    className="mt-1 w-full border border-gray-400"
-                    value={companyName}
-                    onChange={(e) => setCompanyName(e.target.value)}
+                    id="ItemCategory"
+                    name="ItemCategory"
+                    autoComplete="given-name"
+                    className="mt-1 border border-gray-400 w-full"
+                    value={ItemCategory}
+                    onChange={(e) => setItemCategory(e.target.value)}
+                    required
                   />
                 </div>
 
-                <div className="col-span-2 mr-10">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email address
+
+                <div className="col-span-1 sm:col-span-2 mr-10">
+                  <label htmlFor="unit" className="block text-sm font-medium text-gray-700">
+                    Unit : *
                   </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    autoComplete="email"
-                    className="mt-1 w-full border border-gray-400"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                  <div className="w-1/2">
+                    <select
+                      id="unit"
+                      value={unit}
+                      onChange={(e) => setUnit(e.target.value)}
+                      required
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
+                    >
+                      {units.map((unit) => (
+                        <option key={unit} value={unit}>
+                          {unit}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
-                <div className="col-span-2 mr-10">
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    autoComplete="tel"
-                    className="mt-1 w-full border border-gray-400"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                </div>
+
               </div>
             </div>
 
+            {/*
             <div className="col-span-2">
               <label
                 htmlFor="document"
@@ -193,7 +146,7 @@ const AddNewItemPopUp = ({ onClose }) => {
                 className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 onChange={(e) => setDocument(e.target.files[0])}
               />
-            </div>
+              </div>*/}
 
             {/* Close button */}
             <div className="sticky bottom-0 w-full flex justify-end items-center px-4 py-4 bg-white mr-10">
@@ -218,5 +171,6 @@ const AddNewItemPopUp = ({ onClose }) => {
     </div>
   );
 };
+
 
 export default AddNewItemPopUp;
