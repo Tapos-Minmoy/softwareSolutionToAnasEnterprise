@@ -18,6 +18,28 @@ const addItem = async (req, res) => {
   }
 };
 
+// 4. Update accounting information by ID
+const updateItemQuantity = async (req, res) => {
+  try {
+    const { ID ,  quantity } = req.body; // Extract AccountName and increment from request body
+//    console.log(req.body);
+    console.log(ID,quantity);
+
+    const item = await Item.findOne({ where: { id:ID } });
+    //const accountingInfo = await AccountingInfo.findOne({ where: { AccountName:AccountName } });
+    console.log(item);
+
+
+    // Increase the Value based on the provided increment
+    const incrementResult = await item.increment('Quantity', { by:  quantity});
+
+    res.status(200).send(incrementResult.dataValues); // Send the updated information
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating accounting information');
+  }
+};
+
 // 2. Get all items
 const getAllItems = async (req, res) => {
   try {
@@ -80,4 +102,5 @@ module.exports = {
   getOneItem,
   updateItem,
   deleteItem,
+  updateItemQuantity,
 };

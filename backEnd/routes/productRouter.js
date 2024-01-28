@@ -15,7 +15,7 @@ const router = require('express').Router()
 //Item Model
 router.post('/addItem', itemController.addItem)
 router.get('/getAllItems', itemController.getAllItems)
-
+router.post('/updateItemQuantity',itemController.updateItemQuantity)
 
 
 
