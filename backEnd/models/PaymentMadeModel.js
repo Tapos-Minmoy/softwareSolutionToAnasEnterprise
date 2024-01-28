@@ -3,7 +3,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   const PaymentMadeModel = sequelize.define('paymentMade', {
     Date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false, // Ensure Date is always provided
       defaultValue: Sequelize.TODAY, // Set default to current timestamp
     },
@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     Mode: {
       type: DataTypes.STRING,
-      allowNull: false, // Ensure Mode is always provided
     },
     Amount: {
       type: DataTypes.DECIMAL(10, 2), // Assuming two decimal places for currency

@@ -17,8 +17,9 @@ const addBill = async (req, res) => {
 // 2. Get all bills
 const getAllBills = async (req, res) => {
   try {
-    const bills = await Bill.findAll();
-    res.status(200).send(bills);
+    const bills = await Bill.findAll({
+      order: [['id', 'DESC']], // Sort by ID in descending order
+    });    res.status(200).send(bills);
   } catch (error) {
     console.error(error);
     res.status(500).send('Error fetching bills');

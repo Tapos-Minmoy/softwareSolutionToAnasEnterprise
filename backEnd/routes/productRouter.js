@@ -5,6 +5,7 @@ const billController = require('../controllers/billController.js')
 const  billToItems  = require('../controllers/billToItemController.js')
 const paymentMadeController = require('../controllers/paymentMadeController.js')
 const addAccountingInfoController = require('../controllers/AccountingInfoController.js')
+const { Router } = require('express')
 
 // router
 const router = require('express').Router()
@@ -33,6 +34,7 @@ router.get('/getAllBills',billController.getAllBills)
 
 //paymentMade
 router.post('/addPayment',paymentMadeController.addPayment)
+router.get('/getAllPayments',paymentMadeController.getAllPayments)
 
 //AccountingInfo
 

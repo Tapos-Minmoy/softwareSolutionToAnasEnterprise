@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       VendorDisplayName: {
         type: DataTypes.STRING,
-        allowNull: false, // Ensure VendorDisplayName is always provided
         unique: true, // Ensure unique email addresses
       },
       CompanyName: {
