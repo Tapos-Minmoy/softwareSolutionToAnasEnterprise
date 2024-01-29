@@ -1,4 +1,5 @@
 const db = require('../models');
+const {Sequelize, DataTypes} = require('sequelize');
 
 // Access the Bill model
 const Bill = db.bills;
@@ -19,12 +20,31 @@ const getAllBills = async (req, res) => {
   try {
     const bills = await Bill.findAll({
       order: [['id', 'DESC']], // Sort by ID in descending order
-    });    res.status(200).send(bills);
+    }); res.status(200).send(bills);
   } catch (error) {
     console.error(error);
     res.status(500).send('Error fetching bills');
   }
 };
+
+
+const getBillsDue = async (req, res) => {
+  try {
+    const bills = await Bill.findAll({
+      where: { DueAmount: { [Sequelize.Op.gt]: 0 } }, // Filter for DueAmount greater than 0
+      order: [['id', 'DESC']], // Sort by ID in descending order
+    });
+    res.status(200).send(bills);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching bills');
+  }
+};
+
+
+
+
+// await Invoice.destroy({ where: { id } });
 
 // 3. Get a single bill
 const getOneBill = async (req, res) => {
@@ -77,4 +97,5 @@ module.exports = {
   getOneBill,
   updateBill,
   deleteBill,
+  getBillsDue,
 };
