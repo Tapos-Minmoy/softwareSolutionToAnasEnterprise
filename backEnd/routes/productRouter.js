@@ -53,6 +53,7 @@ router.post('/getInfoByAccountName',addAccountingInfoController.getInfoByAccount
 
 //invoice mode
 router.post('/addInvoice',invoiceController.addInvoice)
+router.get('/getAllInvoices',invoiceController.getAllInvoices)
 
 //invoiceToItemModel
 router.post('/addItemToInvoice',invoiceToItemController.addItemToInvoice)

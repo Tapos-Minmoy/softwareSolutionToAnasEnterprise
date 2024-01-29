@@ -18,7 +18,7 @@ const addInvoice = async (req, res) => {
 const getAllInvoices = async (req, res) => {
   try {
     const invoices = await Invoice.findAll({
-      order: [['InvoiceDate', 'DESC']], // Sort by InvoiceDate in descending order
+      order: [['Date', 'DESC']], // Sort by InvoiceDate in descending order
     });
     res.status(200).send(invoices);
   } catch (error) {

@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Invoices = ({ selectedComponent, setSelectedComponent }) => {
   const handleComponentClick = (componentName) => {
@@ -19,8 +20,16 @@ const Invoices = ({ selectedComponent, setSelectedComponent }) => {
 
   const fetchInvoices = async () => {
     // Replace with your database fetching logic
-    const fetchedData = await fetchInvoicesFromDatabase();
-    setInvoiceData(fetchedData);
+    try {
+      const items = await axios.get("http://localhost:8080/api/getAllInvoices");
+      console.log("OK");
+      setInvoiceData(items.data);
+      return items
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      // Handle error gracefully, e.g., display an error message
+      return [];
+    }
   };
 
   return (
@@ -43,6 +52,7 @@ const Invoices = ({ selectedComponent, setSelectedComponent }) => {
             <th>Invoice#</th>
             <th>Customer Name</th>
             <th>Due Date</th>
+            <th>Status</th>
             <th>Amount</th>
             <th>Balance Due</th>
           </tr>
@@ -50,12 +60,13 @@ const Invoices = ({ selectedComponent, setSelectedComponent }) => {
         <tbody>
           {invoiceData.map((invoice, index) => (
             <tr key={invoice.id}>
-              <td>{invoice.date}</td>
-              <td>{invoice.invoiceNumber}</td>
-              <td>{invoice.customerName}</td>
-              <td>{invoice.dueDate}</td>
-              <td>{invoice.amount}</td>
-              <td>{invoice.balanceDue}</td>
+              <td>{invoice.Date}</td>
+              <td>{invoice.id}</td>
+              <td>{invoice.CustomerDisplayName}</td>
+              <td>{invoice.DueDate}</td>
+              <td>{invoice.Status}</td>
+              <td>{invoice.Total}</td>
+              <td>{invoice.DueAmount}</td>
             </tr>
           ))}
         </tbody>
