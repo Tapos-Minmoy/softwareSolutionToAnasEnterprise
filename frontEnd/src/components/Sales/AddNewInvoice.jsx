@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import ShowCustomerDetails from "./ShowCustomerDetails";
 import AddNewCustomerPopUp from "./AddNewCustomerPopUp"; // Import the new component
@@ -126,7 +127,7 @@ const AddNewInvoice = ({selectedComponent, setSelectedComponent }) => {
     console.log(data);
     try{
       const response = await axios.post(
-        "http://localhost:8080/api/addItemToBill",
+        "http://localhost:8080/api/addItemToInvoice",
         data
       );
     }catch(error){
@@ -138,7 +139,7 @@ const AddNewInvoice = ({selectedComponent, setSelectedComponent }) => {
     if(data.paidAmount===0) return;
     try{
       const response = await axios.post(
-        "http://localhost:8080/api/addPayment",
+        "http://localhost:8080/api/recievePayment",
         data
       );
     }catch(error){
@@ -173,11 +174,10 @@ const AddNewInvoice = ({selectedComponent, setSelectedComponent }) => {
       console.log(error);
     }
   }
-  const updateAccountingInfo = async(asset,accountPayable,cash) => {
+  const updateAccountingInfo = async(asset,accountReceivable,cash) => {
     if(asset!==0) updataAccount("Asset",asset);
-    if(accountPayable!==0)  updataAccount("AccountPayable",accountPayable);
+    if(accountReceivable!==0)  updataAccount("AccountReceivable",accountReceivable);
     if(cash!==0) updataAccount("Cash",cash);
-
   }
   const handleSave = async () => {
     if(!CustomerName){
@@ -219,7 +219,7 @@ const AddNewInvoice = ({selectedComponent, setSelectedComponent }) => {
       {
         items.map((item, index) => {
           const data = {
-            BillID: response.data.id,
+            InvoiceID: response.data.id,
             ItemID: item.id,
             Quantity: item.quantity,
             Rate: item.rate,
@@ -230,16 +230,16 @@ const AddNewInvoice = ({selectedComponent, setSelectedComponent }) => {
 
         const data = {
             Date:invoiceDate,
-            BillID:response.data.id,
+            InvoiceID:response.data.id,
             CustomerDisplayName:CustomerName,
             Mode: paymentMode,
             Amount: paidAmount,
         }
         
         addPaymentOK(data);
-        updateAccountingInfo(total,dueAmount,-paidAmount);
-        setSelectedComponent("Bills");
-        navigate("/home");
+        updateAccountingInfo(-total,dueAmount,paidAmount);
+        setSelectedComponent("Invoices");
+      //  navigate("/home");
 
       }
     } catch (error) {

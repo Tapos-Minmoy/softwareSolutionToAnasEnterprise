@@ -3,47 +3,38 @@ const { Sequelize, DataTypes } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   const Invoice = sequelize.define('invoice', {
     // Required fields
-    CustomerName: {
+    CustomerDisplayName: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    InvoiceNumber: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true, // Ensure each invoice has a unique number
+      allowNull: false, // Ensure VendorDisplayName is always provided
     },
     SubTotal: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
+      type: DataTypes.DECIMAL(10, 2), // Assuming two decimal places for currency
+      allowNull: false, // Ensure SubTotal is always provided
     },
-    Tax: {
+    DueAmount: {
       type: DataTypes.DECIMAL(10, 2),
-      defaultValue: 0, // Default tax to zero if not provided
+      allowNull: false, // Ensure DueAmount is always provided
+    },
+    Discount: {
+      type: DataTypes.DECIMAL(4, 2), // Assuming two decimal places for discount
+      defaultValue: 0, // Default discount to zero if not provided
     },
     Total: {
       type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
+      allowNull: false, // Ensure Total is always provided
     },
-    InvoiceDate: {
-      type: DataTypes.DATE, // Assuming full date and time are needed
-      allowNull: false,
-      defaultValue: Sequelize.NOW, // Set default to current timestamp
+    DueDate: {
+      type: DataTypes.DATEONLY, // Assuming only date is needed
+    },
+    Date: {
+      type: DataTypes.DATEONLY, // Assuming full date and time are needed
+      allowNull: false, // Ensure Date is always provided
+      defaultValue: Sequelize.TODAY, // Set default to current timestamp
     },
     Status: {
       type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: 'Pending', // Set default status
-    },
-
-    // Optional fields
-    Notes: {
-      type: DataTypes.TEXT,
-    },
-    DueDate: {
-      type: DataTypes.DATE,
-    },
-    PaymentTerms: {
-      type: DataTypes.STRING,
+      allowNull: false, // Ensure Status is always provided
+      defaultValue: "Pending", // Set default status
     },
   });
 
