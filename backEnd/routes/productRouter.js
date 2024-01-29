@@ -42,7 +42,7 @@ router.get('/getAllPayments',paymentMadeController.getAllPayments)
 
 //paymentRecieved
 router.post('/recievePayment',paymentRecievedController.addPayment)
-
+router.get('/getAllRecievedPayments',paymentRecievedController.getAllPayments)
 
 //AccountingInfo
 
