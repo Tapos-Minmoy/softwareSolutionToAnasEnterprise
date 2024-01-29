@@ -1,4 +1,5 @@
 const db = require('../models');
+const {Sequelize, DataTypes} = require('sequelize');
 
 // Access the Invoice model
 const Invoice = db.invoices;
@@ -71,11 +72,23 @@ const deleteInvoice = async (req, res) => {
     res.status(500).send('Error deleting invoice');
   }
 };
-
+const getInvoiceDue = async (req, res) => {
+  try {
+    const  invoice = await Invoice.findAll({
+      where: { DueAmount: { [Sequelize.Op.gt]: 0 } }, // Filter for DueAmount greater than 0
+      order: [['id', 'DESC']], // Sort by ID in descending order
+    });
+    res.status(200).send(invoice);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching dueInvoice');
+  }
+};
 module.exports = {
   addInvoice,
   getAllInvoices,
   getOneInvoice,
   updateInvoice,
   deleteInvoice,
+  getInvoiceDue,
 };

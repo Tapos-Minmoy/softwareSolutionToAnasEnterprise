@@ -67,6 +67,8 @@ router.post('/getCustomersByDisplayName',customerController.getCustomersByDispla
 router.get('/getAllCustomers',customerController.getAllCustomers) 
 router.get('/getBillsDue',billController.getBillsDue)
 
+router.get('/getInvoiceDue',invoiceController.getInvoiceDue)
+
 
 
 router.post
