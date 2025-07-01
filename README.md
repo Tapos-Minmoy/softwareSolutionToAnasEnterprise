@@ -54,13 +54,13 @@ Anas Enterprise faced challenges in managing their inventory, billing processes,
 
 
 2. **Install backend dependencies**
-
+   ```
    cd backEnd
    npm install
    ```
 
 3. **Install frontend dependencies**
-
+   ```
    cd ../frontEnd
    npm install
    ```
@@ -71,7 +71,7 @@ Anas Enterprise faced challenges in managing their inventory, billing processes,
 
 * Setup your MySQL database.
 * Create a `.env` file in the `backEnd` folder with the following contents (replace placeholders with your info):
-
+  ```
   DB_HOST=your_mysql_host
   DB_USER=your_mysql_user
   DB_PASS=your_mysql_password
@@ -84,15 +84,16 @@ Anas Enterprise faced challenges in managing their inventory, billing processes,
 ### Running the Application
 
 1. **Start the backend server**
-
+   ```
    cd ../backEnd
    npm start
    ```
 
 2.**Start the frontend application** (in a new terminal)
-
+    ```
    cd ../frontEnd
    npm start
+    ```
   
 
 3.**Open your browser and go to**
@@ -118,6 +119,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ```
 
 ---
-
-If you want me to generate the `LICENSE` file content or any other part, just ask!
-```
